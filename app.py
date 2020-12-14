@@ -11,7 +11,7 @@ application = Flask(__name__)
 application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
 
-@application.route("/")
+@application.route("/pitchers")
 def home_page():
     pitchers = pd.read_csv('pitchers_2020.csv')
     pitches = 100
@@ -29,7 +29,7 @@ def home_page():
                            outofzone=outofzone, stuffera=stuffera, pitches=pitches)
 
 
-@application.route("/", methods=['POST'])
+@application.route("/pitchers", methods=['POST'])
 def pitchers_table():
     pitches = int(request.form['pitches'])
     type = request.form['type']
