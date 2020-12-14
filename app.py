@@ -14,7 +14,7 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 @application.route("/")
 def home_page():
     pitchers = pd.read_csv('pitchers_2020.csv')
-    pitches = 100
+    pitches = 500
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
     pitchers = pitchers[["player_name", "Whiff", "xWhiff", "In_Whiff"]]
     pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -100,7 +100,7 @@ def pitchers_table():
 @application.route("/hitters")
 def hitters_page():
     hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
-    pitches = 100
+    pitches = 500
     hitters = hitters[hitters["Pitches"] >= pitches]
     hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
     hitters = hitters.round(3)
