@@ -240,14 +240,14 @@ def prospects_table():
         prospects = prospects.sort_values(by='Elite Rate', ascending=False)
         minors = "selected"
         all = ""
-        return render_template("prospects.html", prospects=prospects, minors=minors, all=all)
+        return render_template("prospects.html", prospects=prospects, minors=minors, all=all, names = names)
     else:
         prospects = prospects[["Name", "Value", "Adjusted Value", "Elite Rate"]]
         prospects = prospects.round(2)
         prospects = prospects.sort_values(by='Elite Rate', ascending=False)
         minors = ""
         all = "selected"
-        return render_template("prospects.html", prospects=prospects, minors=minors, all=all, names = names)
+        return render_template("prospects.html", prospects=prospects, minors=minors, all=all, names =names)
 
 
 @application.route("/prospectchart")
