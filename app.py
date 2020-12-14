@@ -3,7 +3,7 @@ import string
 import base64
 from io import BytesIO
 
-import matplotlib.pyplot as plt, mpld3
+import matplotlib.pyplot as plt
 import pandas as pd
 from flask import Flask, render_template, request
 
