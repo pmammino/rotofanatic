@@ -115,7 +115,7 @@ def pitchers_table():
 def hitters_page():
     hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
     search = ""
-    names = hitters["player_name"].tolist()
+    names = hitters["Name"].tolist()
     names = set(names)
     names = sorted(names)
     names.insert(0, "")
@@ -141,7 +141,7 @@ def hitters_table():
     search = request.form['search']
     hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
     search = ""
-    names = hitters["player_name"].tolist()
+    names = hitters["Name"].tolist()
     names = set(names)
     names = sorted(names)
     names.insert(0, "")
