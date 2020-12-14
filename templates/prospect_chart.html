@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header" xmlns="http://www.w3.org/1999/html">
+    <br>
+    <a href="/" style = "text-decoration: none;"><h1 class="page-title">RotoFanatic Data Monster</h1></a>
+    <br>
+    <hr>
+</header>
+<br>
+<nav class="nav nav-pills nav-justified justify-content-center">
+  <a class="nav-link" href="/">Pitching Leaders</a>
+  <a class="nav-link" href="/hitters">Hitting Leaders</a>
+  <a class="nav-link" href="/prospects">Prospects</a>
+  <a class="nav-link active" href="/prospectchart">Prospect Compare</a>
+</nav>
+<br>
+<h1 class = "header">Prospect Compare Charts</h1>
+<h3 class = "sub_header">Based Off 2019 Results</h3>
+
+    <div class="container page-form">
+<form class="filters" action = "/prospectchart" method = "post">
+            <label for="player">Select First Prospects:</label>
+
+    <select class = "form-control form-control-lg" id = "player" name="player">
+{% for name, selected in players %}
+      <option value= "{{ name }}" {{selected}}>{{ name }}</option>
+{% endfor %}
+    </select>
+    <br>
+    <label for="player2">Select Second Prospect:</label>
+        <select class = "form-control form-control-lg" id = "player2" name="player2">
+
+{% for name, selected in players2 %}
+      <option value= "{{ name }}" {{selected}}>{{ name }}</option>
+{% endfor %}
+    </select>
+    <br>
+    <button type="submit" class="btn btn-orange">Update Chart</button>
+</form>
+    </div>
+    <div>
+<img class = "center" src="data:image/png;base64, {{ plot }}">
+    </div>
+{% endblock %}

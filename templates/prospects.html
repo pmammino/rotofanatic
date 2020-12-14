@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header" xmlns="http://www.w3.org/1999/html">
+    <br>
+    <a href="/" style = "text-decoration: none;"><h1 class="page-title">RotoFanatic Data Monster</h1></a>
+    <br>
+    <hr>
+</header>
+<br>
+<nav class="nav nav-pills nav-justified justify-content-center">
+  <a class="nav-link" href="/">Pitching Leaders</a>
+  <a class="nav-link" href="/hitters">Hitting Leaders</a>
+  <a class="nav-link active" href="/prospects">Prospects</a>
+  <a class="nav-link" href="/prospectchart">Prospect Compare</a>
+</nav>
+<br>
+<h1 class = "header">Fantasy Prospect Value</h1>
+<h3 class = "sub_header">Based Off 2019 Results</h3>
+
+    <div class="container page-form">
+<form class="filters" action = "/prospects" method = "post">
+                <label for="type">Has Player Reached Majors:</label>
+    <select class = "form-control form-control-lg" id = "type" name="type">
+            <option value="Minors" {{minors}}>Never Reached Majors</option>
+            <option value="All" {{all}}>All 2019 Minor Leaguers</option>
+    </select>
+    <br>
+    <button type="submit" class="btn btn-orange">Update Table</button>
+</form>
+        <br>
+{{ prospects.to_html(classes ="table table-striped table-bordered table-sm sortable", index = False, table_id = "dtBasicExample") | safe}}
+    </div>
+{% endblock %}

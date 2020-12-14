@@ -1,0 +1,129 @@
+a, a:hover, a:focus, a:active {
+    text-decoration: none!important;
+    color: inherit;
+}
+
+.page-header {
+  background-color: black;
+}
+
+body {
+}
+
+.clickme {
+    background-color: #F9812A;
+    padding: 1vw 2vw;
+    color: white;
+    text-decoration: none!important;
+    font-weight:bold;
+    border-radius:1vw;
+}
+
+.clickme-header {
+    background-color: #F9812A;
+    color: white;
+    text-decoration: none!important;
+    font-weight:bold;
+    padding: .5vw .5vw;
+    border-radius:1vw;
+
+
+}
+.card {
+    width: 50vw;!important;
+    background-color: #353839;
+    color: white;
+    text-align:center;
+    align: center;
+    font-size: 2.5vw;
+    border-color: white;
+}
+
+a.nav-link {
+  color: white;
+  background-color: gray;
+  font-size: 2vw;
+}
+
+a.nav-link.active {
+  background-color: black;
+  font-size: 2vw;
+}
+
+
+
+.page-title {
+  text-align: center;
+  color: white;
+  font-size:7vw;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  font-size: 6vw!important;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.sub_header {
+  color: black;
+  text-align: center;
+  font-size: 3vw!important;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.nav-pills .nav-link.active {
+    background-color: black!important;
+}
+
+
+select{
+  text-align: center;
+  color: #F9812A;
+}
+
+
+p {
+  text-align: center;
+  color: white;
+}
+
+.btn-orange {
+  background-color: #F9812A;
+  color: white;
+}
+
+li {
+  color: white!important;
+    background-color: #353839!important;
+
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+      font-size: 2vw!important;
+      width: 80vw;
+}
+th {
+text-align: center;
+color: white;
+text-weight: bold;
+background-color: black;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vm;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
