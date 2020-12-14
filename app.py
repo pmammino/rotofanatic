@@ -140,7 +140,6 @@ def hitters_table():
     type = request.form['type']
     search = request.form['search']
     hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
-    search = ""
     names = hitters["Name"].tolist()
     names = set(names)
     names = sorted(names)

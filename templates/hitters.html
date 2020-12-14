@@ -20,6 +20,10 @@
             <option value="wOBA" {{woba}}>wOBA</option>
             <option value="Plate" {{plate}}>Plate Discipline</option>
     </select>
+    		{% for name in names %}
+      <option value= "{{ name }}">{{ name }}</option>
+{% endfor %}
+	</select>
     <br>
 	    <label for="pitches">Min Number Pitches:</label>
 <input type="number" class = "form-control form-control-sm" id="pitches" name="pitches"
