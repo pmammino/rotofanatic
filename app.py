@@ -113,7 +113,13 @@ def pitchers_table():
 @application.route("/hitters")
 def hitters_page():
     hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
-    pitches = 500
+    search = ""
+    names = hitters["player_name"].tolist()
+    names = set(names)
+    names = sorted(names)
+    names.insert(0, "")
+    if search != "":
+        hitters = hitters[hitters['player_name'] == search]
     hitters = hitters[hitters["Pitches"] >= pitches]
     hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
     hitters = hitters.round(3)
@@ -124,14 +130,22 @@ def hitters_page():
     outofzone = ""
     plate = ""
     return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, plate=plate, pitches=pitches)
+                           outofzone=outofzone, plate=plate, pitches=pitches, names = names)
 
 
 @application.route("/hitters", methods=['POST'])
 def hitters_table():
     pitches = int(request.form['pitches'])
     type = request.form['type']
+    search = request.form['search']
     hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
+    search = ""
+    names = hitters["player_name"].tolist()
+    names = set(names)
+    names = sorted(names)
+    names.insert(0, "")
+    if search != "":
+        hitters = hitters[hitters['player_name'] == search]
     hitters = hitters[hitters["Pitches"] >= pitches]
     if type == "Whiffs":
         hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
@@ -143,7 +157,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
     elif type == "In-Zone":
         hitters = hitters[["Name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         hitters = hitters.round(3)
@@ -154,7 +168,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
     elif type == "Out Of Zone":
         hitters = hitters[["Name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         hitters = hitters.round(3)
@@ -165,7 +179,7 @@ def hitters_table():
         outofzone = "selected"
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
     elif type == "wOBA":
         hitters = hitters[["Name", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.round(3)
@@ -176,7 +190,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
     else:
         hitters = hitters[["Name", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
         hitters = hitters.round(2)
@@ -187,7 +201,7 @@ def hitters_table():
         outofzone = ""
         plate = "selected"
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
 
 
 @application.route("/prospects")
