@@ -351,6 +351,7 @@ def prospects_compare():
                     linestyle="dotted")
         plt.axvline(x=round(np.average(x2, weights=w2), 2), color=colors[colors['mascot'] == team2]['primary'].values[0],
                     linestyle="dashed")
+        plt.legend(loc='upper center')
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')
         encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
