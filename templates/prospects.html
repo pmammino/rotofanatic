@@ -1,13 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<header class="page-header" xmlns="http://www.w3.org/1999/html">
-    <br>
-    <a href="/" style = "text-decoration: none;"><h1 class="page-title">RotoFanatic Data Monster</h1></a>
-    <br>
-    <hr>
-</header>
 <br>
-<nav class="nav nav-pills nav-justified justify-content-center">
+			<div id = "et-main-area">
+			<nav class="nav nav-pills nav-justified justify-content-center">
   <a class="nav-link" href="/">Pitching Leaders</a>
   <a class="nav-link" href="/hitters">Hitting Leaders</a>
   <a class="nav-link active" href="/prospects">Prospects</a>
@@ -30,4 +25,5 @@
         <br>
 {{ prospects.to_html(classes ="table table-striped table-bordered table-sm sortable", index = False, table_id = "dtBasicExample") | safe}}
     </div>
+	</div>
 {% endblock %}
