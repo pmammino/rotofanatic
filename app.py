@@ -42,6 +42,7 @@ def pitchers_table():
     type = request.form['type']
     search = request.form['search']
     pitchers = pd.read_csv('pitchers_2020.csv')
+    names = pitchers["player_name"].tolist()
     names = set(names)
     names = sorted(names)
     names.insert(0, "")
