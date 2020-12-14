@@ -120,7 +120,7 @@ def hitters_page():
     names = sorted(names)
     names.insert(0, "")
     if search != "":
-        hitters = hitters[hitters['player_name'] == search]
+        hitters = hitters[hitters['Name'] == search]
     hitters = hitters[hitters["Pitches"] >= pitches]
     hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
     hitters = hitters.round(3)
@@ -146,7 +146,7 @@ def hitters_table():
     names = sorted(names)
     names.insert(0, "")
     if search != "":
-        hitters = hitters[hitters['player_name'] == search]
+        hitters = hitters[hitters['Name'] == search]
     hitters = hitters[hitters["Pitches"] >= pitches]
     if type == "Whiffs":
         hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
