@@ -15,7 +15,14 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 def home_page():
     pitchers = pd.read_csv('pitchers_2020.csv')
     pitches = 500
+    search = ""
+    names = pitchers["player_name"].tolist()
+    names = set(names)
+    names = sorted(names)
+    names.insert(0, "")
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
+    if search != "":
+        pitchers = pitchers[pitchers['player_name'] == search]
     pitchers = pitchers[["player_name", "Whiff", "xWhiff", "In_Whiff"]]
     pitchers = pitchers.rename(columns={"player_name": "Name"})
     pitchers = pitchers.round(3)
@@ -26,15 +33,21 @@ def home_page():
     outofzone = ""
     stuffera = ""
     return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, stuffera=stuffera, pitches=pitches)
+                           outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
 
 
 @application.route("/", methods=['POST'])
 def pitchers_table():
     pitches = int(request.form['pitches'])
     type = request.form['type']
+    search = request.form['search']
     pitchers = pd.read_csv('pitchers_2020.csv')
+    names = set(names)
+    names = sorted(names)
+    names.insert(0, "")
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
+    if search != "":
+        pitchers = pitchers[pitchers['player_name'] == search]
     if type == "Whiffs":
         pitchers = pitchers[["player_name", "Whiff", "xWhiff", "In_Whiff"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -46,7 +59,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
     elif type == "In-Zone":
         pitchers = pitchers[["player_name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -58,7 +71,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
     elif type == "Out Of Zone":
         pitchers = pitchers[["player_name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -70,7 +83,7 @@ def pitchers_table():
         outofzone = "selected"
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
     elif type == "wOBA":
         pitchers = pitchers[["player_name", "wOBA", "xwOBA", "In_wOBA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -82,7 +95,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
     else:
         pitchers = pitchers[["player_name", "Command", "S_ERA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA"})
@@ -94,7 +107,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = "selected"
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
 
 
 @application.route("/hitters")
