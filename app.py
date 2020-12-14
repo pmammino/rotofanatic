@@ -4,6 +4,7 @@ import base64
 from io import BytesIO
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from flask import Flask, render_template, request
 
@@ -257,7 +258,7 @@ def prospects_chart():
     plt.hist(x1, weights=w1, bins=20,color=color, label=names,edgecolor='black', linewidth=1.2, figure = fig, density= True)
     plt.suptitle('Comp Based Range Of Outcomes')
     plt.title(p1)
-    plt.axvline(x=round(average( x1, weights = w1),2), color = colors[colors['mascot'] == team1]['secondary'].values[0], linetype = "dotted")
+    plt.axvline(x=round(np.average( x1, weights = w1),2), color = colors[colors['mascot'] == team1]['secondary'].values[0], linetype = "dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
@@ -318,7 +319,7 @@ def prospects_compare():
         plt.hist(x1, weights=w1, bins=20,color=color, label=names,edgecolor='black', linewidth=1.2, figure = fig, density= True)
         plt.suptitle('Comp Based Range Of Outcomes')
         plt.title(p1)
-        plt.axvline(x=round(average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['secondary'].values[0],
+        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['secondary'].values[0],
                     linetype="dotted")
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')
@@ -335,9 +336,9 @@ def prospects_compare():
                  density=True)
         plt.suptitle('Comp Based Range Of Outcomes')
         plt.title(p1 + " vs " + p2)
-        plt.axvline(x=round(average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['secondary'].values[0],
+        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['secondary'].values[0],
                     linetype="dotted")
-        plt.axvline(x=round(average(x2, weights=w2), 2), color=colors[colors['mascot'] == team2]['primary'].values[0],
+        plt.axvline(x=round(np.average(x2, weights=w2), 2), color=colors[colors['mascot'] == team2]['primary'].values[0],
                     linetype="dotted")
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')

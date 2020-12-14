@@ -18,6 +18,7 @@ dnspython = "*"
 gunicorn = "*"
 bcrypt = "*"
 matplotlib = "*"
+numpy = "*"
 
 [dev-packages]
 pylint = "*"
