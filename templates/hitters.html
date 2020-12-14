@@ -13,7 +13,6 @@
     <div class="container page-form">
 <form class="filters" action = "/hitters" method = "post">
     <label for="type">Select Stats:</label>
-    <label for="pitches">Min Number Pitches:</label>
     <select class = "form-control form-control-lg" id = "type" name="type">
             <option value="Whiffs" {{whiff}}>Whiffs</option>
             <option value="In-Zone" {{inzone}}>In-Zone</option>
@@ -22,6 +21,7 @@
             <option value="Plate" {{plate}}>Plate Discipline</option>
     </select>
     <br>
+	    <label for="pitches">Min Number Pitches:</label>
 <input type="number" class = "form-control form-control-sm" id="pitches" name="pitches"
        min="0" max="2000" step = "50" value = {{pitches}}>
     <br>
