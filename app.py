@@ -330,7 +330,7 @@ def prospects_compare():
         plt.hist(x1, weights=w1, bins=20,color=color, label=names,edgecolor='black', linewidth=1.2, figure = fig, density= True)
         plt.suptitle('Comp Based Range Of Outcomes')
         plt.title(p1)
-        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['secondary'].values[0],
+        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['primary'].values[0],
                     linestyle="dotted")
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')
@@ -340,18 +340,18 @@ def prospects_compare():
         team2 = milb[milb['player_list'] == p2]['Team'].values[0]
         x2 = comps[comps['player_list'] == p2]['Total Val'].to_list()
         w2 = comps[comps['player_list'] == p2]['W'].to_list()
-        color = [colors[colors['mascot'] == team1]['primary'].values[0],colors[colors['mascot'] == team2]['secondary'].values[0]]
+        color = [colors[colors['mascot'] == team1]['primary'].values[0],colors[colors['mascot'] == team2]['primary'].values[0]]
         names = [p1,p2]
         fig = plt.figure()
         plt.hist([x1,x2], weights=[w1,w2], bins=20, color=color, label=names, edgecolor='black', linewidth=1.2, figure=fig,
                  density=True)
         plt.suptitle('Comp Based Range Of Outcomes')
         plt.title(p1 + " vs " + p2)
-        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['secondary'].values[0],
+        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['primary'].values[0],
                     linestyle="dotted")
-        plt.axvline(x=round(np.average(x2, weights=w2), 2), color=colors[colors['mascot'] == team2]['primary'].values[0],
+        plt.axvline(x=round(np.average(x2, weights=w2), 2), color=colors[colors['mascot'] == team2]['secondary'].values[0],
                     linestyle="dashed")
-        plt.legend(loc='upper center')
+        plt.legend(loc='upper right', fontsize="small")
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')
         encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
