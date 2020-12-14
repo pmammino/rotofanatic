@@ -19,6 +19,13 @@
             <option value="Minors" {{minors}}>Never Reached Majors</option>
             <option value="All" {{all}}>All 2019 Minor Leaguers</option>
     </select>
+		<br>
+	        <label for="search">Player Search:</label>
+	<select class = "form-control form-control-lg" name="search" id="search">
+		{% for name in names %}
+      <option value= "{{ name }}">{{ name }}</option>
+{% endfor %}
+	</select>
     <br>
     <button type="submit" class="btn btn-orange">Update Table</button>
 </form>

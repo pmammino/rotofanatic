@@ -209,19 +209,30 @@ def hitters_table():
 @application.route("/prospects")
 def prospects_page():
     prospects = pd.read_csv('prospects_2019.csv', encoding="ISO-8859-1")
+    names = prospects["Name"].tolist()
+    names = set(names)
+    names = sorted(names)
+    names.insert(0, "")
     prospects = prospects[prospects["PlayerID"].str.contains("sa")]
     prospects = prospects[["Name", "Value", "Adjusted Value", "Elite Rate"]]
     prospects = prospects.round(2)
     prospects = prospects.sort_values(by='Elite Rate', ascending=False)
     minors = "selected"
     all = ""
-    return render_template("prospects.html", prospects=prospects, minors=minors, all=all)
+    return render_template("prospects.html", prospects=prospects, minors=minors, all=all, names = names)
 
 
 @application.route("/prospects", methods=['POST'])
 def prospects_table():
     type = request.form['type']
+    search = request.form['search']
     prospects = pd.read_csv('prospects_2019.csv', encoding="ISO-8859-1")
+    names = prospects["Name"].tolist()
+    names = set(names)
+    names = sorted(names)
+    names.insert(0, "")
+    if search != "":
+        prospects = prospects[prospects['Name'] == search]
     if type == "Minors":
         prospects = prospects[prospects["PlayerID"].str.contains("sa")]
         prospects = prospects[["Name", "Value", "Adjusted Value", "Elite Rate"]]
@@ -236,7 +247,7 @@ def prospects_table():
         prospects = prospects.sort_values(by='Elite Rate', ascending=False)
         minors = ""
         all = "selected"
-        return render_template("prospects.html", prospects=prospects, minors=minors, all=all)
+        return render_template("prospects.html", prospects=prospects, minors=minors, all=all, names = names)
 
 
 @application.route("/prospectchart")
