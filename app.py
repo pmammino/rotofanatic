@@ -22,6 +22,8 @@ def home_page():
     names = sorted(names)
     names.insert(0, "")
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
+    expected = "xWhiff - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
+    influence = "In_Whiff - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
     if search != "":
         pitchers = pitchers[pitchers['player_name'] == search]
     pitchers = pitchers[["player_name", "Whiff", "xWhiff", "In_Whiff"]]
@@ -34,7 +36,7 @@ def home_page():
     outofzone = ""
     stuffera = ""
     return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
+                           outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
 
 
 @application.route("/", methods=['POST'])
@@ -55,61 +57,71 @@ def pitchers_table():
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
+        expected = "xWhiff - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
+        influence = "In_Whiff - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
         whiff = "selected"
         woba = ""
         inzone = ""
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
     elif type == "In-Zone":
         pitchers = pitchers[["player_name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='IZ', ascending=True)
+        expected = "IZ.xSwing - Average expected swing rate of all pitches thrown In the Strike Zone by the pitcher based on count/pitch type/location"
+        influence = "IZ - How much more or less likely a pitcher is to generate a swing In the Zone factoring in opposing hitter"
         whiff = ""
         woba = ""
         inzone = "selected"
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
     elif type == "Out Of Zone":
         pitchers = pitchers[["player_name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='OOZ', ascending=False)
+        expected = "OOZ.xSwing - Average expected swing rate of all pitches thrown Out of the Strike Zone by the pitcher based on count/pitch type/location"
+        influence = "OOZ - How much more or less likely a pitcher is to generate a swing Out of the Zone factoring in opposing hitter"
         whiff = ""
         woba = ""
         inzone = ""
         outofzone = "selected"
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
     elif type == "wOBA":
         pitchers = pitchers[["player_name", "wOBA", "xwOBA", "In_wOBA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='In_wOBA', ascending=True)
+        expected = "xwOBA - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
+        influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the pitcher factoring in opposing hitter"
         whiff = ""
         woba = "selected"
         inzone = ""
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
     else:
         pitchers = pitchers[["player_name", "Command", "S_ERA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA"})
         pitchers = pitchers.round(2)
         pitchers = pitchers.sort_values(by='StuffERA', ascending=True)
+        expected = "Command - z-Score based metric that evaluates how much better than the average a given pitcher's location was based on expected outcomes"
+        influence = "StuffERA - ERA Based estimator that factors in all of the influence metrics and command"
         whiff = ""
         woba = ""
         inzone = ""
         outofzone = ""
         stuffera = "selected"
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
 
 
 @application.route("/hitters")
@@ -127,13 +139,15 @@ def hitters_page():
     hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
     hitters = hitters.round(3)
     hitters = hitters.sort_values(by='In_Whiff', ascending=True)
+    expected = "xWhiff - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
+    influence = "In_Whiff - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
     whiff = "selected"
     woba = ""
     inzone = ""
     outofzone = ""
     plate = ""
     return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, plate=plate, pitches=pitches, names = names)
+                           outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
 
 
 @application.route("/hitters", methods=['POST'])
@@ -153,57 +167,67 @@ def hitters_table():
         hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='In_Whiff', ascending=True)
+        expected = "xWhiff - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
+        influence = "In_Whiff - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
         whiff = "selected"
         woba = ""
         inzone = ""
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
     elif type == "In-Zone":
         hitters = hitters[["Name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='IZ', ascending=False)
+        expected = "IZ.xSwing - Average expected swing rate of all pitches seen In the Strike Zone by the hitter based on count/pitch type/location"
+        influence = "IZ - How much more or less likely a hitter is to generate a swing In the Zone factoring in opposing pitcher"
         whiff = ""
         woba = ""
         inzone = "selected"
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
     elif type == "Out Of Zone":
         hitters = hitters[["Name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='OOZ', ascending=True)
+        expected = "OOZ.xSwing - Average expected swing rate of all pitches seen Out of the Strike Zone by the hitter based on count/pitch type/location"
+        influence = "OOZ - How much more or less likely a hitter is to generate a swing Out of the Zone factoring in opposing pitcher"
         whiff = ""
         woba = ""
         inzone = ""
         outofzone = "selected"
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
     elif type == "wOBA":
         hitters = hitters[["Name", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='In_wOBA', ascending=False)
+        expected = "xwOBA - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
+        influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the hitter factoring in opposing pitcher"
         whiff = ""
         woba = "selected"
         inzone = ""
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
     else:
         hitters = hitters[["Name", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
         hitters = hitters.round(2)
         hitters = hitters.sort_values(by='SAE', ascending=False)
+        expected = "xwOBA_Swing/xwOBA_Take - Average expected wobaCon of all pitches either swung at or taken by a hitter based on location/count/pitch type"
+        influence = "SAE - Percentage increase of the expected wOBACon a hitter swung at versus all pitches saw. 110 means a hitter swung at pitches with a expected wOBACon 10% better than all pitches he saw"
         whiff = ""
         woba = ""
         inzone = ""
         outofzone = ""
         plate = "selected"
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
 
 
 @application.route("/prospects")
