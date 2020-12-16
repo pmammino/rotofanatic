@@ -36,7 +36,7 @@ def home_page():
     outofzone = ""
     stuffera = ""
     return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                           outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = influence, expected = expected)
 
 
 @application.route("/", methods=['POST'])
@@ -65,7 +65,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = influence, expected = expected)
     elif type == "In-Zone":
         pitchers = pitchers[["player_name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -79,7 +79,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = influence, expected = expected)
     elif type == "Out Of Zone":
         pitchers = pitchers[["player_name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -93,7 +93,7 @@ def pitchers_table():
         outofzone = "selected"
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = influence, expected = expected)
     elif type == "wOBA":
         pitchers = pitchers[["player_name", "wOBA", "xwOBA", "In_wOBA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -107,7 +107,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = influence, expected = expected)
     else:
         pitchers = pitchers[["player_name", "Command", "S_ERA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA"})
@@ -121,7 +121,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = "selected"
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, names = names, influence = influence, expected = expected)
 
 
 @application.route("/hitters")
@@ -147,7 +147,7 @@ def hitters_page():
     outofzone = ""
     plate = ""
     return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                           outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = influence, expected = expected)
 
 
 @application.route("/hitters", methods=['POST'])
@@ -175,7 +175,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = influence, expected = expected)
     elif type == "In-Zone":
         hitters = hitters[["Name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         hitters = hitters.round(3)
@@ -188,7 +188,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = influence, expected = expected)
     elif type == "Out Of Zone":
         hitters = hitters[["Name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         hitters = hitters.round(3)
@@ -201,7 +201,7 @@ def hitters_table():
         outofzone = "selected"
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = influence, expected = expected)
     elif type == "wOBA":
         hitters = hitters[["Name", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.round(3)
@@ -214,7 +214,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = influence, expected = expected)
     else:
         hitters = hitters[["Name", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
         hitters = hitters.round(2)
@@ -227,7 +227,7 @@ def hitters_table():
         outofzone = ""
         plate = "selected"
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = infleunce, expected = expected)
+                               outofzone=outofzone, plate=plate, pitches=pitches, names = names, influence = influence, expected = expected)
 
 
 @application.route("/prospects")
