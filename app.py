@@ -40,7 +40,7 @@ def pitchers_table():
     pitchers = pd.read_csv('pitchers_2020.csv')
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
     if search is not None:
-        pitchers = pitchers[pitchers['player_name'].str.contains(search)]
+        pitchers = pitchers[pitchers['player_name'].str.contains(search,case=False)]
     if type == "Whiffs":
         pitchers = pitchers[["player_name", "Whiff", "xWhiff", "In_Whiff"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -139,7 +139,7 @@ def hitters_table():
     search = request.form['search']
     hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
     if search is not None:
-        hitters = hitters[hitters['Name'].str.contains(search)]
+        hitters = hitters[hitters['Name'].str.contains(search,case=False)]
     hitters = hitters[hitters["Pitches"] >= pitches]
     if type == "Whiffs":
         hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
@@ -226,7 +226,7 @@ def prospects_table():
     search = request.form['search']
     prospects = pd.read_csv('prospects_2019.csv', encoding="ISO-8859-1")
     if search is not None:
-        prospects = prospects[prospects['Name'].str.contains(search)]
+        prospects = prospects[prospects['Name'].str.contains(search,case=False)]
     if type == "Minors":
         prospects = prospects[prospects["PlayerID"].str.contains("sa")]
         prospects = prospects[["Name", "Value", "Adjusted Value", "Elite Rate"]]
