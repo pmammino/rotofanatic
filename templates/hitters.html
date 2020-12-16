@@ -20,18 +20,13 @@
             <option value="wOBA" {{woba}}>wOBA</option>
             <option value="Plate" {{plate}}>Plate Discipline</option>
     </select>
-		<br>
-	        <label for="search">Player Search:</label>
-		<select class = "form-control form-control-lg" name="search" id="search">
-    		{% for name in names %}
-      <option value= "{{ name }}">{{ name }}</option>
-{% endfor %}
-	</select>
     <br>
 	    <label for="pitches">Min Number Pitches:</label>
 <input type="number" class = "form-control form-control-sm" id="pitches" name="pitches"
        min="0" max="2000" step = "50" value = {{pitches}}>
     <br>
+		      <label for="search">Search For Player:</label>
+  <input type="text" class = "form-control form-control-lg" id="search" name="search"><br>
     <button type="submit" class="btn btn-orange">Update Table</button>
 </form>
         <br>
