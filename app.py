@@ -36,6 +36,7 @@ def home_page():
 def pitchers_table():
     pitches = int(request.form['pitches'])
     search = request.form['search']
+    search = search.strip()
     type = request.form['type']
     pitchers = pd.read_csv('pitchers_2020.csv')
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
@@ -137,6 +138,7 @@ def hitters_table():
     pitches = int(request.form['pitches'])
     type = request.form['type']
     search = request.form['search']
+    search = search.strip()
     hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
     if search is not None:
         hitters = hitters[hitters['Name'].str.contains(search,case=False)]
@@ -224,6 +226,7 @@ def prospects_page():
 def prospects_table():
     type = request.form['type']
     search = request.form['search']
+    search = search.strip()
     prospects = pd.read_csv('prospects_2019.csv', encoding="ISO-8859-1")
     if search is not None:
         prospects = prospects[prospects['Name'].str.contains(search,case=False)]
