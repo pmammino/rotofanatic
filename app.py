@@ -105,7 +105,7 @@ def pitchers_table():
         pitchers = pitchers.round(2)
         pitchers = pitchers.sort_values(by='StuffERA', ascending=True)
         expected = "Command - z-Score based metric that evaluates how much better than the average a given pitcher's location was based on expected outcomes"
-        influence = "StuffERA - ERA Based estimator that factors in all of the influence metrics and command"
+        influence = "StuffERA (AVG 4.07) - ERA Based estimator that factors in all of the influence metrics and command"
         whiff = ""
         woba = ""
         inzone = ""
