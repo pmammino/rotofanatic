@@ -87,10 +87,10 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
     elif type == "wOBA":
         pitchers = pitchers[["player_name", "wOBA", "xwOBA", "In_wOBA"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name"})
+        pitchers = pitchers.rename(columns={"player_name": "Name", "xwOBA" : "XLwOBA"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='In_wOBA', ascending=True)
-        expected = "xwOBA (AVG - 0.336) - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
+        expected = "XLwOBA (AVG - 0.336) - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
         influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the pitcher factoring in opposing hitter"
         whiff = ""
         woba = "selected"
@@ -188,7 +188,8 @@ def hitters_table():
         hitters = hitters[["Name", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='In_wOBA', ascending=False)
-        expected = "xwOBA (AVG - 0.336) - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
+        hitters = hitters.rename(columns={"xwOBA" : "XLwOBA"})
+        expected = "XLwOBA (AVG - 0.336) - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
         influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the hitter factoring in opposing pitcher"
         whiff = ""
         woba = "selected"
