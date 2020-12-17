@@ -17,7 +17,7 @@ def home_page():
     pitchers = pd.read_csv('pitchers_2020.csv')
     pitches = 500
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
-    expected = "xWhiff - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
+    expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
     influence = "In_Whiff - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
     pitchers = pitchers[["player_name", "Whiff", "xWhiff", "In_Whiff"]]
     pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -48,7 +48,7 @@ def pitchers_table():
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
-        expected = "xWhiff - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
+        expected = "xWhiff (AVG 0.105) - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
         influence = "In_Whiff - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
         whiff = "selected"
         woba = ""
@@ -62,7 +62,7 @@ def pitchers_table():
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='IZ', ascending=True)
-        expected = "IZ.xSwing - Average expected swing rate of all pitches thrown In the Strike Zone by the pitcher based on count/pitch type/location"
+        expected = "IZ.xSwing (AVG - 0.654) - Average expected swing rate of all pitches thrown In the Strike Zone by the pitcher based on count/pitch type/location"
         influence = "IZ - How much more or less likely a pitcher is to generate a swing In the Zone factoring in opposing hitter"
         whiff = ""
         woba = ""
@@ -76,7 +76,7 @@ def pitchers_table():
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='OOZ', ascending=False)
-        expected = "OOZ.xSwing - Average expected swing rate of all pitches thrown Out of the Strike Zone by the pitcher based on count/pitch type/location"
+        expected = "OOZ.xSwing (AVG - 0.292) - Average expected swing rate of all pitches thrown Out of the Strike Zone by the pitcher based on count/pitch type/location"
         influence = "OOZ - How much more or less likely a pitcher is to generate a swing Out of the Zone factoring in opposing hitter"
         whiff = ""
         woba = ""
@@ -90,7 +90,7 @@ def pitchers_table():
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='In_wOBA', ascending=True)
-        expected = "xwOBA - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
+        expected = "xwOBA (AVG - 0.336) - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
         influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the pitcher factoring in opposing hitter"
         whiff = ""
         woba = "selected"
@@ -123,7 +123,7 @@ def hitters_page():
     hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
     hitters = hitters.round(3)
     hitters = hitters.sort_values(by='In_Whiff', ascending=True)
-    expected = "xWhiff - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
+    expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
     influence = "In_Whiff - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
     whiff = "selected"
     woba = ""
@@ -149,7 +149,7 @@ def hitters_table():
         hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='In_Whiff', ascending=True)
-        expected = "xWhiff - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
+        expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
         influence = "In_Whiff - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
         whiff = "selected"
         woba = ""
@@ -162,7 +162,7 @@ def hitters_table():
         hitters = hitters[["Name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='IZ', ascending=False)
-        expected = "IZ.xSwing - Average expected swing rate of all pitches seen In the Strike Zone by the hitter based on count/pitch type/location"
+        expected = "IZ.xSwing (AVG - 0.654) - Average expected swing rate of all pitches seen In the Strike Zone by the hitter based on count/pitch type/location"
         influence = "IZ - How much more or less likely a hitter is to generate a swing In the Zone factoring in opposing pitcher"
         whiff = ""
         woba = ""
@@ -175,7 +175,7 @@ def hitters_table():
         hitters = hitters[["Name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='OOZ', ascending=True)
-        expected = "OOZ.xSwing - Average expected swing rate of all pitches seen Out of the Strike Zone by the hitter based on count/pitch type/location"
+        expected = "OOZ.xSwing (AVG - 0.292) - Average expected swing rate of all pitches seen Out of the Strike Zone by the hitter based on count/pitch type/location"
         influence = "OOZ - How much more or less likely a hitter is to generate a swing Out of the Zone factoring in opposing pitcher"
         whiff = ""
         woba = ""
@@ -188,7 +188,7 @@ def hitters_table():
         hitters = hitters[["Name", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='In_wOBA', ascending=False)
-        expected = "xwOBA - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
+        expected = "xwOBA (AVG - 0.336) - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
         influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the hitter factoring in opposing pitcher"
         whiff = ""
         woba = "selected"
