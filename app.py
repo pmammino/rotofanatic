@@ -56,7 +56,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
     elif type == "In-Zone":
         pitchers = pitchers[["player_name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -70,7 +70,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
     elif type == "Out Of Zone":
         pitchers = pitchers[["player_name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -84,7 +84,7 @@ def pitchers_table():
         outofzone = "selected"
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
     elif type == "wOBA":
         pitchers = pitchers[["player_name", "wOBA", "xwOBA", "In_wOBA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -98,7 +98,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
     else:
         pitchers = pitchers[["player_name", "Command", "S_ERA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA"})
@@ -112,7 +112,7 @@ def pitchers_table():
         outofzone = ""
         stuffera = "selected"
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
 
 
 @application.route("/hitters")
@@ -157,7 +157,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
     elif type == "In-Zone":
         hitters = hitters[["Name", "IZ.Swing", "IZ.xSwing", "IZ"]]
         hitters = hitters.round(3)
@@ -170,7 +170,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
     elif type == "Out Of Zone":
         hitters = hitters[["Name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         hitters = hitters.round(3)
@@ -183,7 +183,7 @@ def hitters_table():
         outofzone = "selected"
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
     elif type == "wOBA":
         hitters = hitters[["Name", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.round(3)
@@ -196,7 +196,7 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
     else:
         hitters = hitters[["Name", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
         hitters = hitters.round(2)
@@ -209,7 +209,7 @@ def hitters_table():
         outofzone = ""
         plate = "selected"
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, text = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
 
 
 @application.route("/prospects")
@@ -240,14 +240,14 @@ def prospects_table():
         prospects = prospects.sort_values(by='Elite Rate', ascending=False)
         minors = "selected"
         all = ""
-        return render_template("prospects.html", prospects=prospects, minors=minors, all=all, text = text)
+        return render_template("prospects.html", prospects=prospects, minors=minors, all=all, val = text)
     else:
         prospects = prospects[["Name", "Value", "Adjusted Value", "Elite Rate"]]
         prospects = prospects.round(2)
         prospects = prospects.sort_values(by='Elite Rate', ascending=False)
         minors = ""
         all = "selected"
-        return render_template("prospects.html", prospects=prospects, minors=minors, all=all, text = text)
+        return render_template("prospects.html", prospects=prospects, minors=minors, all=all, val = text)
 
 
 @application.route("/prospectchart")
