@@ -271,7 +271,7 @@ def prospects_chart():
     plt.hist(x1, weights=w1, bins=20,color=color, label=names,edgecolor='black', linewidth=1.2, figure = fig)
     plt.suptitle('Comp Based Range Of Outcomes')
     plt.title(p1)
-    plt.xlabel("Projected Future SGP Impact")
+    plt.xlabel("Future Fantasy Impact")
     plt.ylabel("Weighted Probability")
     plt.axvline(x=round(np.average( x1, weights = w1),2), color = colors[colors['mascot'] == team1]['primary'].values[0], linestyle = "dotted")
     tmpfile = BytesIO()
@@ -335,7 +335,7 @@ def prospects_compare():
         plt.hist(x1, weights=w1, bins=20,color=color, label=names,edgecolor='black', linewidth=1.2, figure = fig)
         plt.suptitle('Comp Based Range Of Outcomes')
         plt.title(p1)
-        plt.xlabel("Projected Future SGP Impact")
+        plt.xlabel("Future Fantasy Impact")
         plt.ylabel("Weighted Probability")
         plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['primary'].values[0],
                     linestyle="dotted")
@@ -354,7 +354,7 @@ def prospects_compare():
         plt.hist([x1,x2], weights=[w1,w2], bins=20, color=color, label=names, edgecolor='black', linewidth=1.2, figure=fig)
         plt.suptitle('Comp Based Range Of Outcomes')
         plt.title(p1 + " vs " + p2)
-        plt.xlabel("Projected Future SGP Impact")
+        plt.xlabel("Future Fantasy Impact")
         plt.ylabel("Weighted Probability")
         plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['primary'].values[0],
                     linestyle="dotted")
