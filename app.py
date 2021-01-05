@@ -204,10 +204,10 @@ def pitchers_table():
                            end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "wOBA":
         pitchers = pitchers[["player_name","Season", "wOBA", "xwOBA", "In_wOBA"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name"})
+        pitchers = pitchers.rename(columns={"player_name": "Name", "xwOBA" : "xLwOBA"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='In_wOBA', ascending=True)
-        expected = "xwOBA - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
+        expected = "xLwOBA - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
         influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the pitcher factoring in opposing hitter"
         whiff = ""
         woba = "selected"
@@ -428,9 +428,10 @@ def hitters_table():
                                end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "wOBA":
         hitters = hitters[["Name","Season", "wOBA", "xwOBA", "In_wOBA"]]
+        hitters = hitters.rename(columns={"xwOBA": "xLwOBA"})
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='In_wOBA', ascending=False)
-        expected = "xwOBA - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
+        expected = "xLwOBA - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
         influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the hitter factoring in opposing pitcher"
         whiff = ""
         woba = "selected"
@@ -445,9 +446,10 @@ def hitters_table():
                                end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     else:
         hitters = hitters[["Name", "Season", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
+        hitters = hitters.rename(columns={"xwOBA_Swing": "xLwOBA_Swing","xwOBA_Take": "xLwOBA_Take" })
         hitters = hitters.round(2)
         hitters = hitters.sort_values(by='SAE', ascending=False)
-        expected = "xwOBA_Swing/xwOBA_Take - Average expected wobaCon of all pitches either swung at or taken by a hitter based on location/count/pitch type"
+        expected = "xLwOBA_Swing/xLwOBA_Take - Average expected wobaCon of all pitches either swung at or taken by a hitter based on location/count/pitch type"
         influence = "SAE - Percentage increase of the expected wOBACon a hitter swung at versus all pitches saw. 110 means a hitter swung at pitches with a expected wOBACon 10% better than all pitches he saw"
         whiff = ""
         woba = ""
