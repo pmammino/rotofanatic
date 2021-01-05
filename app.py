@@ -14,12 +14,13 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 
 @application.route("/")
 def home_page():
-    pitchers = pd.read_csv('pitchers_2020.csv')
+    pitchers = pd.read_csv('all_seasons_pitchers.csv')
+    pitchers = pitchers[pitchers['Season'] == 2020]
     pitches = 500
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
-    expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
+    expected = "xWhiff - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
     influence = "In_Whiff - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
-    pitchers = pitchers[["player_name", "Whiff", "xWhiff", "In_Whiff"]]
+    pitchers = pitchers[["player_name", "Season", "Whiff", "xWhiff", "In_Whiff"]]
     pitchers = pitchers.rename(columns={"player_name": "Name"})
     pitchers = pitchers.round(3)
     pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
@@ -28,8 +29,23 @@ def home_page():
     inzone = ""
     outofzone = ""
     stuffera = ""
+    start20 = "selected"
+    start19 = ""
+    start18 = ""
+    start17 = ""
+    start16 = ""
+    start15 = ""
+    end20 = "selected"
+    end19 = ""
+    end18 = ""
+    end17 = ""
+    end16 = ""
+    end15 = ""
     return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected)
+                           outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
+                           expected=expected,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           start15=start15,
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
 
 
 @application.route("/", methods=['POST'])
@@ -39,16 +55,108 @@ def pitchers_table():
     text = search
     search = search.strip()
     type = request.form['type']
-    pitchers = pd.read_csv('pitchers_2020.csv')
+    year = int(request.form['year'])
+    yearend = int(request.form['yearend'])
+    if year > yearend:
+        end = year
+        year = yearend
+        yearend = end
+    if year == 2020:
+        start20 = "selected"
+        start19 = ""
+        start18 = ""
+        start17 = ""
+        start16 = ""
+        start15 = ""
+    elif year == 2019:
+        start20 = ""
+        start19 = "selected"
+        start18 = ""
+        start17 = ""
+        start16 = ""
+        start15 = ""
+    elif year == 2018:
+        start20 = ""
+        start19 = ""
+        start18 = "selected"
+        start17 = ""
+        start16 = ""
+        start15 = ""
+    elif year == 2017:
+        start20 = ""
+        start19 = ""
+        start18 = ""
+        start17 = "selected"
+        start16 = ""
+        start15 = ""
+    elif year == 2016:
+        start20 = ""
+        start19 = ""
+        start18 = ""
+        start17 = ""
+        start16 = "selected"
+        start15 = ""
+    else:
+        start20 = ""
+        start19 = ""
+        start18 = ""
+        start17 = ""
+        start16 = ""
+        start15 = "selected"
+    if yearend == 2020:
+        end20 = "selected"
+        end19 = ""
+        end18 = ""
+        end17 = ""
+        end16 = ""
+        end15 = ""
+    elif yearend == 2019:
+        end20 = ""
+        end19 = "selected"
+        end18 = ""
+        end17 = ""
+        end16 = ""
+        end15 = ""
+    elif yearend == 2018:
+        end20 = ""
+        end19 = ""
+        end18 = "selected"
+        end17 = ""
+        end16 = ""
+        end15 = ""
+    elif yearend == 2017:
+        end20 = ""
+        end19 = ""
+        end18 = ""
+        end17 = "selected"
+        end16 = ""
+        end15 = ""
+    elif yearend == 2016:
+        end20 = ""
+        end19 = ""
+        end18 = ""
+        end17 = ""
+        end16 = "selected"
+        end15 = ""
+    else:
+        end20 = ""
+        end19 = ""
+        end18 = ""
+        end17 = ""
+        end16 = ""
+        end15 = "selected"
+    pitchers = pd.read_csv('all_seasons_pitchers.csv')
+    pitchers = pitchers[pitchers['Season'] <= yearend]
+    pitchers = pitchers[pitchers['Season'] >= year]
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
     if search is not None:
-        pitchers = pitchers[pitchers['player_name'].str.contains(search,case=False)]
+        pitchers = pitchers[pitchers['player_name'].str.contains(search, case=False)]
     if type == "Whiffs":
-        pitchers = pitchers[["player_name", "Whiff", "xWhiff", "In_Whiff"]]
+        pitchers = pitchers[["player_name","Season", "Whiff", "xWhiff", "In_Whiff"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
-        expected = "xWhiff (AVG 0.105) - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
+        expected = "xWhiff - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
         influence = "In_Whiff - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
         whiff = "selected"
         woba = ""
@@ -56,13 +164,16 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
+                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           start15=start15,
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "In-Zone":
-        pitchers = pitchers[["player_name", "IZ.Swing", "IZ.xSwing", "IZ"]]
+        pitchers = pitchers[["player_name","Season" "IZ.Swing", "IZ.xSwing", "IZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='IZ', ascending=True)
-        expected = "IZ.xSwing (AVG - 0.654) - Average expected swing rate of all pitches thrown In the Strike Zone by the pitcher based on count/pitch type/location"
+        expected = "IZ.xSwing - Average expected swing rate of all pitches thrown In the Strike Zone by the pitcher based on count/pitch type/location"
         influence = "IZ - How much more or less likely a pitcher is to generate a swing In the Zone factoring in opposing hitter"
         whiff = ""
         woba = ""
@@ -70,13 +181,16 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
+                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           start15=start15,
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "Out Of Zone":
-        pitchers = pitchers[["player_name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
+        pitchers = pitchers[["player_name", "Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='OOZ', ascending=False)
-        expected = "OOZ.xSwing (AVG - 0.292) - Average expected swing rate of all pitches thrown Out of the Strike Zone by the pitcher based on count/pitch type/location"
+        expected = "OOZ.xSwing - Average expected swing rate of all pitches thrown Out of the Strike Zone by the pitcher based on count/pitch type/location"
         influence = "OOZ - How much more or less likely a pitcher is to generate a swing Out of the Zone factoring in opposing hitter"
         whiff = ""
         woba = ""
@@ -84,13 +198,16 @@ def pitchers_table():
         outofzone = "selected"
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
+                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           start15=start15,
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "wOBA":
-        pitchers = pitchers[["player_name", "wOBA", "xwOBA", "In_wOBA"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name", "xwOBA" : "XLwOBA"})
+        pitchers = pitchers[["player_name","Season", "wOBA", "xwOBA", "In_wOBA"]]
+        pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='In_wOBA', ascending=True)
-        expected = "XLwOBA (AVG - 0.336) - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
+        expected = "xwOBA - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
         influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the pitcher factoring in opposing hitter"
         whiff = ""
         woba = "selected"
@@ -98,40 +215,62 @@ def pitchers_table():
         outofzone = ""
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
+                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           start15=start15,
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     else:
-        pitchers = pitchers[["player_name", "Command", "S_ERA"]]
+        pitchers = pitchers[["player_name","Season", "Command", "S_ERA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA"})
         pitchers = pitchers.round(2)
         pitchers = pitchers.sort_values(by='StuffERA', ascending=True)
         expected = "Command - z-Score based metric that evaluates how much better than the average a given pitcher's location was based on expected outcomes"
-        influence = "StuffERA (AVG 4.07) - ERA Based estimator that factors in all of the influence metrics and command"
+        influence = "StuffERA - ERA Based estimator that factors in all of the influence metrics and command"
         whiff = ""
         woba = ""
         inzone = ""
         outofzone = ""
         stuffera = "selected"
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
+                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           start15=start15,
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
 
 
 @application.route("/hitters")
 def hitters_page():
-    hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
+    hitters = pd.read_csv('all_seasons_hitters.csv', encoding="ISO-8859-1")
+    hitters = hitters[hitters['Season'] == 2020]
     pitches = 500
     hitters = hitters[hitters["Pitches"] >= pitches]
-    hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
+    hitters = hitters[["Name","Season", "Whiff", "xWhiff", "In_Whiff"]]
     hitters = hitters.round(3)
     hitters = hitters.sort_values(by='In_Whiff', ascending=True)
-    expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
+    expected = "xWhiff - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
     influence = "In_Whiff - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
     whiff = "selected"
     woba = ""
     inzone = ""
     outofzone = ""
     plate = ""
+    start20 = "selected"
+    start19 = ""
+    start18 = ""
+    start17 = ""
+    start16 = ""
+    start15 = ""
+    end20 = "selected"
+    end19 = ""
+    end18 = ""
+    end17 = ""
+    end16 = ""
+    end15 = ""
     return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected)
+                           outofzone=outofzone, plate=plate, pitches=pitches, influence=influence, expected=expected,
+                           start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           start15=start15,
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
 
 
 @application.route("/hitters", methods=['POST'])
@@ -139,17 +278,108 @@ def hitters_table():
     pitches = int(request.form['pitches'])
     type = request.form['type']
     search = request.form['search']
-    text = search
     search = search.strip()
-    hitters = pd.read_csv('hitters_2020.csv', encoding="ISO-8859-1")
+    year = int(request.form['year'])
+    yearend = int(request.form['yearend'])
+    if year > yearend:
+        end = year
+        year = yearend
+        yearend = end
+    if year == 2020:
+        start20 = "selected"
+        start19 = ""
+        start18 = ""
+        start17 = ""
+        start16 = ""
+        start15 = ""
+    elif year == 2019:
+        start20 = ""
+        start19 = "selected"
+        start18 = ""
+        start17 = ""
+        start16 = ""
+        start15 = ""
+    elif year == 2018:
+        start20 = ""
+        start19 = ""
+        start18 = "selected"
+        start17 = ""
+        start16 = ""
+        start15 = ""
+    elif year == 2017:
+        start20 = ""
+        start19 = ""
+        start18 = ""
+        start17 = "selected"
+        start16 = ""
+        start15 = ""
+    elif year == 2016:
+        start20 = ""
+        start19 = ""
+        start18 = ""
+        start17 = ""
+        start16 = "selected"
+        start15 = ""
+    else:
+        start20 = ""
+        start19 = ""
+        start18 = ""
+        start17 = ""
+        start16 = ""
+        start15 = "selected"
+    if yearend == 2020:
+        end20 = "selected"
+        end19 = ""
+        end18 = ""
+        end17 = ""
+        end16 = ""
+        end15 = ""
+    elif yearend == 2019:
+        end20 = ""
+        end19 = "selected"
+        end18 = ""
+        end17 = ""
+        end16 = ""
+        end15 = ""
+    elif yearend == 2018:
+        end20 = ""
+        end19 = ""
+        end18 = "selected"
+        end17 = ""
+        end16 = ""
+        end15 = ""
+    elif yearend == 2017:
+        end20 = ""
+        end19 = ""
+        end18 = ""
+        end17 = "selected"
+        end16 = ""
+        end15 = ""
+    elif yearend == 2016:
+        end20 = ""
+        end19 = ""
+        end18 = ""
+        end17 = ""
+        end16 = "selected"
+        end15 = ""
+    else:
+        end20 = ""
+        end19 = ""
+        end18 = ""
+        end17 = ""
+        end16 = ""
+        end15 = "selected"
+    hitters = pd.read_csv('all_seasons_hitters.csv', encoding="ISO-8859-1")
+    hitters = hitters[hitters['Season'] <= yearend]
+    hitters = hitters[hitters['Season'] >= year]
     if search is not None:
-        hitters = hitters[hitters['Name'].str.contains(search,case=False)]
+        hitters = hitters[hitters['Name'].str.contains(search, case=False)]
     hitters = hitters[hitters["Pitches"] >= pitches]
     if type == "Whiffs":
-        hitters = hitters[["Name", "Whiff", "xWhiff", "In_Whiff"]]
+        hitters = hitters[["Name","Season", "Whiff", "xWhiff", "In_Whiff"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='In_Whiff', ascending=True)
-        expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
+        expected = "xWhiff - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
         influence = "In_Whiff - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
         whiff = "selected"
         woba = ""
@@ -157,12 +387,16 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
+                               expected=expected,
+                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start15=start15,
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "In-Zone":
-        hitters = hitters[["Name", "IZ.Swing", "IZ.xSwing", "IZ"]]
+        hitters = hitters[["Name","Season", "IZ.Swing", "IZ.xSwing", "IZ"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='IZ', ascending=False)
-        expected = "IZ.xSwing (AVG - 0.654) - Average expected swing rate of all pitches seen In the Strike Zone by the hitter based on count/pitch type/location"
+        expected = "IZ.xSwing - Average expected swing rate of all pitches seen In the Strike Zone by the hitter based on count/pitch type/location"
         influence = "IZ - How much more or less likely a hitter is to generate a swing In the Zone factoring in opposing pitcher"
         whiff = ""
         woba = ""
@@ -170,12 +404,16 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
+                               expected=expected,
+                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start15=start15,
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "Out Of Zone":
-        hitters = hitters[["Name", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
+        hitters = hitters[["Name","Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='OOZ', ascending=True)
-        expected = "OOZ.xSwing (AVG - 0.292) - Average expected swing rate of all pitches seen Out of the Strike Zone by the hitter based on count/pitch type/location"
+        expected = "OOZ.xSwing - Average expected swing rate of all pitches seen Out of the Strike Zone by the hitter based on count/pitch type/location"
         influence = "OOZ - How much more or less likely a hitter is to generate a swing Out of the Zone factoring in opposing pitcher"
         whiff = ""
         woba = ""
@@ -183,13 +421,16 @@ def hitters_table():
         outofzone = "selected"
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
+                               expected=expected,
+                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start15=start15,
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "wOBA":
-        hitters = hitters[["Name", "wOBA", "xwOBA", "In_wOBA"]]
+        hitters = hitters[["Name","Season", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.round(3)
         hitters = hitters.sort_values(by='In_wOBA', ascending=False)
-        hitters = hitters.rename(columns={"xwOBA" : "XLwOBA"})
-        expected = "XLwOBA (AVG - 0.336) - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
+        expected = "xwOBA - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
         influence = "In_wOBA - Amount above a below the expected wOBACon that we can attribute to the hitter factoring in opposing pitcher"
         whiff = ""
         woba = "selected"
@@ -197,9 +438,13 @@ def hitters_table():
         outofzone = ""
         plate = ""
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
+                               expected=expected,
+                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start15=start15,
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     else:
-        hitters = hitters[["Name", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
+        hitters = hitters[["Name", "Season", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
         hitters = hitters.round(2)
         hitters = hitters.sort_values(by='SAE', ascending=False)
         expected = "xwOBA_Swing/xwOBA_Take - Average expected wobaCon of all pitches either swung at or taken by a hitter based on location/count/pitch type"
@@ -210,7 +455,11 @@ def hitters_table():
         outofzone = ""
         plate = "selected"
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence = influence, expected = expected, val = text)
+                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
+                               expected=expected,
+                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start15=start15,
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
 
 
 @application.route("/prospects")

@@ -25,8 +25,28 @@
 <input type="number" class = "form-control form-control-sm" id="pitches" name="pitches"
        min="0" max="2000" step = "50" value = {{pitches}}>
     <br>
+                <label for="year">Select Start Year:</label>
+    <select class = "form-control form-control-sm" id = "year" name="year">
+            <option value="2020" {{start20}}>2020</option>
+            <option value="2019" {{start19}}>2019</option>
+            <option value="2018" {{start18}}>2018</option>
+            <option value="2017" {{start17}}>2017</option>
+            <option value="2016" {{start16}}>2016</option>
+        <option value="2015" {{start15}}>2015</option>
+    </select>
+    <br>
+                <label for="yearend">Select End Year:</label>
+    <select class = "form-control form-control-sm" id = "yearend" name="yearend">
+            <option value="2020" {{end20}}>2020</option>
+            <option value="2019" {{end19}}>2019</option>
+            <option value="2018" {{end18}}>2018</option>
+            <option value="2017" {{end17}}>2017</option>
+            <option value="2016" {{end16}}>2016</option>
+        <option value="2015" {{end15}}>2015</option>
+    </select>
+    <br>
 		      <label for="search">Search For Player:</label>
-  <input type="text" class = "form-control form-control-lg" id="search" name="search" value = {{val}}><br>
+  <input type="text" class = "form-control form-control-lg" id="search" name="search"><br>
     <button type="submit" class="btn btn-orange">Update Table</button>
 </form>
         <br>
@@ -48,4 +68,5 @@
 {{ hitters.to_html(classes ="table table-striped table-bordered table-sm sortable", index = False, table_id = "dtBasicExample") | safe}}
     </div>
 				</div>
+            </div>
 				{% endblock %}
