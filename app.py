@@ -169,7 +169,7 @@ def pitchers_table():
                            start15=start15,
                            end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     elif type == "In-Zone":
-        pitchers = pitchers[["player_name","Season" "IZ.Swing", "IZ.xSwing", "IZ"]]
+        pitchers = pitchers[["player_name","Season", "IZ.Swing", "IZ.xSwing", "IZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
         pitchers = pitchers.round(3)
         pitchers = pitchers.sort_values(by='IZ', ascending=True)
@@ -221,7 +221,7 @@ def pitchers_table():
                            end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
     else:
         pitchers = pitchers[["player_name","Season", "Command", "S_ERA"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA"})
+        pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA", "Command" : "rfCommand"})
         pitchers = pitchers.round(2)
         pitchers = pitchers.sort_values(by='StuffERA', ascending=True)
         expected = "Command - z-Score based metric that evaluates how much better than the average a given pitcher's location was based on expected outcomes"
