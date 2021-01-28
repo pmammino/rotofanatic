@@ -448,7 +448,7 @@ def hitters_table():
     else:
         hitters = hitters[["Name", "Season", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
         hitters = hitters.rename(columns={"xwOBA_Swing": "xLwOBA_Swing","xwOBA_Take": "xLwOBA_Take" })
-        hitters = hitters.round(2)
+        hitters = hitters.round(3)
         hitters = hitters.sort_values(by='SAE', ascending=False)
         expected = "xLwOBA_Swing/xLwOBA_Take - Average expected wobaCon of all pitches either swung at or taken by a hitter based on location/count/pitch type"
         influence = "SAE - Percentage increase of the expected wOBACon a hitter swung at versus all pitches saw. 110 means a hitter swung at pitches with a expected wOBACon 10% better than all pitches he saw"
