@@ -194,7 +194,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, value = value,percentile = percentile)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "Out Of Zone":
         pitchers = pitchers[["player_name", "Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -211,7 +211,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, value = value,percentile = percentile)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "wOBA":
         pitchers = pitchers[["player_name","Season", "wOBA", "xwOBA", "In_wOBA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "xwOBA" : "xLwOBA"})
@@ -228,7 +228,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, value = value,percentile = percentile)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15,values = values,percentile = percentile)
     else:
         pitchers = pitchers[["player_name","Season", "Command", "S_ERA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA", "Command" : "rfCommand"})
@@ -245,7 +245,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, value = value,percentile = percentile)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
 
 @application.route("/hitters")
