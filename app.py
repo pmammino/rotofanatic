@@ -149,7 +149,7 @@ def pitchers_table():
         end16 = ""
         end15 = "selected"
     if display == "Percentile":
-        pitchers = pd.read_csv9('all_seasons_pitchers_percentile.csv')
+        pitchers = pd.read_csv('all_seasons_pitchers_percentile.csv')
         percentile = "selected"
         values = ""
     else:
