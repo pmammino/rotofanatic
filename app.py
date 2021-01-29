@@ -17,6 +17,8 @@ def home_page():
     pitchers = pd.read_csv('all_seasons_pitchers.csv')
     pitchers = pitchers[pitchers['Season'] == 2020]
     pitches = 500
+    values = "selected"
+    percentile = ""
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
     expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
     influence = "In_Whiff (AVG - 0) - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
@@ -45,12 +47,13 @@ def home_page():
                            outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                            expected=expected,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
 
 @application.route("/", methods=['POST'])
 def pitchers_table():
     pitches = int(request.form['pitches'])
+    display = request.form['display']
     search = request.form['search']
     text = search
     search = search.strip()
@@ -145,7 +148,14 @@ def pitchers_table():
         end17 = ""
         end16 = ""
         end15 = "selected"
-    pitchers = pd.read_csv('all_seasons_pitchers.csv')
+    if display == "Percentile":
+        pitchers = pd.read_csv9('all_seasons_pitchers_percentile.csv')
+        percentile = "selected"
+        values = ""
+    else:
+        pitchers = pd.read_csv('all_seasons_pitchers.csv')
+        percentile = ""
+        value = "selected"
     pitchers = pitchers[pitchers['Season'] <= yearend]
     pitchers = pitchers[pitchers['Season'] >= year]
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
@@ -167,7 +177,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "In-Zone":
         pitchers = pitchers[["player_name","Season", "IZ.Swing", "IZ.xSwing", "IZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -184,7 +194,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, value = value,percentile = percentile)
     elif type == "Out Of Zone":
         pitchers = pitchers[["player_name", "Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -201,7 +211,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, value = value,percentile = percentile)
     elif type == "wOBA":
         pitchers = pitchers[["player_name","Season", "wOBA", "xwOBA", "In_wOBA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "xwOBA" : "xLwOBA"})
@@ -218,7 +228,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, value = value,percentile = percentile)
     else:
         pitchers = pitchers[["player_name","Season", "Command", "S_ERA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA", "Command" : "rfCommand"})
@@ -235,7 +245,7 @@ def pitchers_table():
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
                                expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, value = value,percentile = percentile)
 
 
 @application.route("/hitters")
