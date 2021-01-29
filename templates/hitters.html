@@ -21,6 +21,12 @@
             <option value="Plate" {{plate}}>Plate Discipline</option>
     </select>
     <br>
+	        <label for="display">Select Display Type:</label>
+    <select class = "form-control form-control-lg" id = "display" name="display">
+            <option value="Value" {{values}}>Value</option>
+            <option value="Percentile" {{percentile}}>Percentile</option>
+    </select>
+    <br>
 	    <label for="pitches">Min Number Pitches:</label>
 <input type="number" class = "form-control form-control-sm" id="pitches" name="pitches"
        min="0" max="2000" step = "50" value = {{pitches}}>

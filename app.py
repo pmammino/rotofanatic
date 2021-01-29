@@ -251,6 +251,8 @@ def pitchers_table():
 @application.route("/hitters")
 def hitters_page():
     hitters = pd.read_csv('all_seasons_hitters.csv', encoding="ISO-8859-1")
+    values = "selected"
+    percentile = ""
     hitters = hitters[hitters['Season'] == 2020]
     pitches = 500
     hitters = hitters[hitters["Pitches"] >= pitches]
@@ -280,7 +282,7 @@ def hitters_page():
                            outofzone=outofzone, plate=plate, pitches=pitches, influence=influence, expected=expected,
                            start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
 
 @application.route("/hitters", methods=['POST'])
@@ -288,6 +290,7 @@ def hitters_table():
     pitches = int(request.form['pitches'])
     type = request.form['type']
     search = request.form['search']
+    display = request.form['display']
     text = search
     search = search.strip()
     year = int(request.form['year'])
@@ -380,7 +383,14 @@ def hitters_table():
         end17 = ""
         end16 = ""
         end15 = "selected"
-    hitters = pd.read_csv('all_seasons_hitters.csv', encoding="ISO-8859-1")
+    if display == "Percentile":
+        hitters = pd.read_csv('all_seasons_hitters_percentile.csv', encoding="ISO-8859-1")
+        percentile = "selected"
+        values = ""
+    else:
+        hitters = pd.read_csv('all_seasons_hitters.csv', encoding="ISO-8859-1")
+        percentile = ""
+        values = "selected"
     hitters = hitters[hitters['Season'] <= yearend]
     hitters = hitters[hitters['Season'] >= year]
     if search is not None:
@@ -402,7 +412,7 @@ def hitters_table():
                                expected=expected, text = text,
                                start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "In-Zone":
         hitters = hitters[["Name","Season", "IZ.Swing", "IZ.xSwing", "IZ"]]
         hitters = hitters.round(3)
@@ -419,7 +429,7 @@ def hitters_table():
                                expected=expected, text = text,
                                start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "Out Of Zone":
         hitters = hitters[["Name","Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         hitters = hitters.round(3)
@@ -436,7 +446,7 @@ def hitters_table():
                                expected=expected, text = text,
                                start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "wOBA":
         hitters = hitters[["Name","Season", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.rename(columns={"xwOBA": "xLwOBA"})
@@ -454,7 +464,7 @@ def hitters_table():
                                expected=expected, text = text,
                                start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     else:
         hitters = hitters[["Name", "Season", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
         hitters = hitters.rename(columns={"xwOBA_Swing": "xLwOBA_Swing","xwOBA_Take": "xLwOBA_Take" })
@@ -472,7 +482,7 @@ def hitters_table():
                                expected=expected, text = text,
                                start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15)
+                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
 
 @application.route("/prospects")
