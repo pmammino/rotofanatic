@@ -155,7 +155,7 @@ def pitchers_table():
     else:
         pitchers = pd.read_csv('all_seasons_pitchers.csv')
         percentile = ""
-        value = "selected"
+        values = "selected"
     pitchers = pitchers[pitchers['Season'] <= yearend]
     pitchers = pitchers[pitchers['Season'] >= year]
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
