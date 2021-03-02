@@ -656,7 +656,7 @@ def projections():
                            outfield = outfield,
                            all = all)
 
-@application.route("/projections",,methods=['POST'])
+@application.route("/projections",methods=['POST'])
 def projections_filter():
     position = request.form['position']
     search = request.form['search']
