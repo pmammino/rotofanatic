@@ -640,8 +640,142 @@ def prospects_compare():
 
 @application.route("/projections")
 def projections():
+    catcher = ""
+    first = ""
+    second = ""
+    third = ""
+    short = ""
+    outfield = ""
+    all = "selected"
     projections = pd.read_csv('projections.csv', encoding="ISO-8859-1")
-    return render_template("projections.html", projections=projections)
+    return render_template("projections.html", projections=projections, catcher = catcher,
+                           first = first,
+                           second = second,
+                           third = third,
+                           short = short,
+                           outfield = outfield,
+                           all = all)
+
+@application.route("/projections",,methods=['POST'])
+def projections_filter():
+    position = request.form['position']
+    search = request.form['search']
+    text = search
+    search = search.strip()
+    projections = pd.read_csv('projections.csv', encoding="ISO-8859-1")
+    if search is not None:
+        projections = projections[projections['Player'].str.contains(search, case=False)]
+    if position == "C":
+        catcher = "selected"
+        first = ""
+        second = ""
+        third = ""
+        short = ""
+        outfield = ""
+        all = ""
+        projections = projections[projections['POS'].str.contains(position, case=False)]
+        return render_template("projections.html", projections=projections, catcher=catcher,
+                               first=first,
+                               second=second,
+                               third=third,
+                               short=short,
+                               outfield=outfield,
+                               all=all)
+    elif position == "1B":
+        catcher = ""
+        first = "selected"
+        second = ""
+        third = ""
+        short = ""
+        outfield = ""
+        all = ""
+        projections = projections[projections['POS'].str.contains(position, case=False)]
+        return render_template("projections.html", projections=projections, catcher=catcher,
+                               first=first,
+                               second=second,
+                               third=third,
+                               short=short,
+                               outfield=outfield,
+                               all=all)
+    elif position == "2B":
+        catcher = ""
+        first = ""
+        second = "selected"
+        third = ""
+        short = ""
+        outfield = ""
+        all = ""
+        projections = projections[projections['POS'].str.contains(position, case=False)]
+        return render_template("projections.html", projections=projections, catcher=catcher,
+                               first=first,
+                               second=second,
+                               third=third,
+                               short=short,
+                               outfield=outfield,
+                               all=all)
+    elif position == "3B":
+        catcher = ""
+        first = ""
+        second = ""
+        third = "selected"
+        short = ""
+        outfield = ""
+        all = ""
+        projections = projections[projections['POS'].str.contains(position, case=False)]
+        return render_template("projections.html", projections=projections, catcher=catcher,
+                               first=first,
+                               second=second,
+                               third=third,
+                               short=short,
+                               outfield=outfield,
+                               all=all)
+    elif position == "SS":
+        catcher = ""
+        first = ""
+        second = ""
+        third = ""
+        short = "selected"
+        outfield = ""
+        all = ""
+        projections = projections[projections['POS'].str.contains(position, case=False)]
+        return render_template("projections.html", projections=projections, catcher=catcher,
+                               first=first,
+                               second=second,
+                               third=third,
+                               short=short,
+                               outfield=outfield,
+                               all=all)
+    elif position == "OF":
+        catcher = ""
+        first = ""
+        second = ""
+        third = ""
+        short = ""
+        outfield = "selected"
+        all = ""
+        projections = projections[projections['POS'].str.contains(position, case=False)]
+        return render_template("projections.html", projections=projections, catcher=catcher,
+                               first=first,
+                               second=second,
+                               third=third,
+                               short=short,
+                               outfield=outfield,
+                               all=all)
+    else:
+        catcher = ""
+        first = ""
+        second = ""
+        third = ""
+        short = ""
+        outfield = ""
+        all = "selected"
+        return render_template("projections.html", projections=projections, catcher=catcher,
+                               first=first,
+                               second=second,
+                               third=third,
+                               short=short,
+                               outfield=outfield,
+                               all=all)
 
 if __name__ == "__main__":
     application.run(port=4500)
