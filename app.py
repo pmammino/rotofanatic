@@ -673,7 +673,7 @@ def projections_filter():
         short = ""
         outfield = ""
         all = ""
-        projections = projections[projections['POS'].str.contains(position, case=False)]
+        projections = projections[projections['Pos'].str.contains(position, case=False)]
         return render_template("projections.html", projections=projections, catcher=catcher,
                                first=first,
                                second=second,
@@ -689,7 +689,7 @@ def projections_filter():
         short = ""
         outfield = ""
         all = ""
-        projections = projections[projections['POS'].str.contains(position, case=False)]
+        projections = projections[projections['Pos'].str.contains(position, case=False)]
         return render_template("projections.html", projections=projections, catcher=catcher,
                                first=first,
                                second=second,
@@ -705,7 +705,7 @@ def projections_filter():
         short = ""
         outfield = ""
         all = ""
-        projections = projections[projections['POS'].str.contains(position, case=False)]
+        projections = projections[projections['Pos'].str.contains(position, case=False)]
         return render_template("projections.html", projections=projections, catcher=catcher,
                                first=first,
                                second=second,
@@ -721,7 +721,7 @@ def projections_filter():
         short = ""
         outfield = ""
         all = ""
-        projections = projections[projections['POS'].str.contains(position, case=False)]
+        projections = projections[projections['Pos'].str.contains(position, case=False)]
         return render_template("projections.html", projections=projections, catcher=catcher,
                                first=first,
                                second=second,
@@ -737,7 +737,7 @@ def projections_filter():
         short = "selected"
         outfield = ""
         all = ""
-        projections = projections[projections['POS'].str.contains(position, case=False)]
+        projections = projections[projections['Pos'].str.contains(position, case=False)]
         return render_template("projections.html", projections=projections, catcher=catcher,
                                first=first,
                                second=second,
@@ -753,7 +753,7 @@ def projections_filter():
         short = ""
         outfield = "selected"
         all = ""
-        projections = projections[projections['POS'].str.contains(position, case=False)]
+        projections = projections[projections['Pos'].str.contains(position, case=False)]
         return render_template("projections.html", projections=projections, catcher=catcher,
                                first=first,
                                second=second,
