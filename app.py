@@ -638,6 +638,10 @@ def prospects_compare():
         encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
         return render_template("prospect_chart.html", players=players, players2=players2, plot=encoded)
 
+@application.route("/projections")
+def projections():
+    projections = pd.read_csv('projections.csv', encoding="ISO-8859-1")
+    return render_template("projections.html", projections=projections)
 
 if __name__ == "__main__":
     application.run(port=4500)

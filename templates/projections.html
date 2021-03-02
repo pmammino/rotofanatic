@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class = "header">2021 Fantasy Projections</h1>
+<br>
+{{ projections.to_html(classes ="table table-striped table-bordered table-sm sortable projections", index = False, table_id = "dtBasicExample") | safe}}
+{% endblock %}
