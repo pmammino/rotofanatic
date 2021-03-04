@@ -648,21 +648,48 @@ def projections():
     outfield = ""
     all = "selected"
     projections = pd.read_csv('projections.csv', encoding="ISO-8859-1")
+    list = projections["Team"].tolist()
+    list = set(list)
+    list = sorted(list)
+    list.insert(0, "All")
+    team = 'All'
+    selected = []
+    for i in list:
+        if i == team:
+            selected.append("selected")
+        else:
+            selected.append("")
+    teams = zip(list, selected)
     return render_template("projections.html", projections=projections, catcher = catcher,
                            first = first,
                            second = second,
                            third = third,
                            short = short,
                            outfield = outfield,
-                           all = all)
+                           all = all,
+                           teams = teams)
 
 @application.route("/projections",methods=['POST'])
 def projections_filter():
     position = request.form['position']
     search = request.form['search']
+    team = request.form['team']
     text = search
     search = search.strip()
     projections = pd.read_csv('projections.csv', encoding="ISO-8859-1")
+    list = projections["Team"].tolist()
+    list = set(list)
+    list = sorted(list)
+    list.insert(0, "All")
+    selected = []
+    for i in list:
+        if i == team:
+            selected.append("selected")
+        else:
+            selected.append("")
+    teams = zip(list, selected)
+    if team != "All":
+        projections = projections[projections['Team'].str.contains(team, case=False)]
     if search is not None:
         projections = projections[projections['Player'].str.contains(search, case=False)]
     if position == "C":
@@ -680,7 +707,8 @@ def projections_filter():
                                third=third,
                                short=short,
                                outfield=outfield,
-                               all=all)
+                               all=all,
+                               teams=teams)
     elif position == "1B":
         catcher = ""
         first = "selected"
@@ -696,7 +724,8 @@ def projections_filter():
                                third=third,
                                short=short,
                                outfield=outfield,
-                               all=all)
+                               all=all,
+                               teams=teams)
     elif position == "2B":
         catcher = ""
         first = ""
@@ -712,7 +741,8 @@ def projections_filter():
                                third=third,
                                short=short,
                                outfield=outfield,
-                               all=all)
+                               all=all,
+                               teams = teams)
     elif position == "3B":
         catcher = ""
         first = ""
@@ -728,7 +758,8 @@ def projections_filter():
                                third=third,
                                short=short,
                                outfield=outfield,
-                               all=all)
+                               all=all,
+                               teams=teams)
     elif position == "SS":
         catcher = ""
         first = ""
@@ -744,7 +775,8 @@ def projections_filter():
                                third=third,
                                short=short,
                                outfield=outfield,
-                               all=all)
+                               all=all,
+                               teams=teams)
     elif position == "OF":
         catcher = ""
         first = ""
@@ -760,7 +792,8 @@ def projections_filter():
                                third=third,
                                short=short,
                                outfield=outfield,
-                               all=all)
+                               all=all,
+                               teams=teams)
     else:
         catcher = ""
         first = ""
@@ -775,7 +808,8 @@ def projections_filter():
                                third=third,
                                short=short,
                                outfield=outfield,
-                               all=all)
+                               all=all,
+                               teams=teams)
 
 if __name__ == "__main__":
     application.run(port=4500)

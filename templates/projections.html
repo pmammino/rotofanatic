@@ -18,6 +18,14 @@
             <option value="ALL" {{all}}>ALL</option>
     </select>
 		<br>
+            <label for="team">Select Team:</label>
+
+    <select class = "form-control form-control-lg" id = "team" name="team">
+{% for name, selected in teams %}
+      <option value= "{{ name }}" {{selected}}>{{ name }}</option>
+{% endfor %}
+    </select>
+	<br>
 	      <label for="search">Search For Player:</label>
   <input type="text" class = "form-control form-control-lg" id="search" name="search" value = {{val}}><br>
     <br>
