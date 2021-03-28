@@ -30,6 +30,12 @@
 {% endfor %}
     </select>
     <br>
+	<label for="type">Show Non-Zero Results Only:</label>
+    <select class = "form-control form-control-lg" id = "type" name="type">
+            <option value="zero" {{zero}}>Include Zero Results</option>
+            <option value="nonzero" {{nonzero}}>Do Not Include Zero Results</option>
+    </select>
+    <br>
     <button type="submit" class="btn btn-orange">Update Chart</button>
 </form>
         <br>

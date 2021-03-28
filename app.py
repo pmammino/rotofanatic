@@ -533,6 +533,8 @@ def prospects_chart():
     list = sorted(list)
     p1 = 'Brennen Davis-Cubs-A'
     p2 = ""
+    zero = "selected"
+    nonzero = ""
     team1 = milb[milb['player_list'] == p1]['Team'].values[0]
     x1 = comps[comps['player_list'] == p1]['Total Val'].to_list()
     w1 = comps[comps['player_list'] == p1]['W'].to_list()
@@ -566,15 +568,22 @@ def prospects_chart():
     list2.insert(0, "")
     selected2.insert(0, "selected")
     players2 = zip(list2, selected2)
-    return render_template("prospect_chart.html", players=players, players2=players2, plot = encoded)
+    return render_template("prospect_chart.html", players=players, players2=players2, plot=encoded, zero=zero,
+                           nonzero=nonzero)
 
 
 @application.route("/prospectchart",methods=['POST'])
 def prospects_compare():
     p1 = request.form['player']
     p2 = request.form['player2']
+    type = request.form['type']
     comps = pd.read_csv('comps.csv', encoding="ISO-8859-1")
-    milb = pd.read_csv('milb.csv', encoding="ISO-8859-1")
+    zero = "selected"
+    nonzero = ""
+    if type == "nonzero":
+        comps = comps[comps['Total Val'] != 0]
+        zero = ""
+        nonzero = "selected"    milb = pd.read_csv('milb.csv', encoding="ISO-8859-1")
     colors = pd.read_csv('colors.csv', encoding="ISO-8859-1")
     list = comps["player_list"].tolist()
     list = set(list)
@@ -636,7 +645,7 @@ def prospects_compare():
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')
         encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-        return render_template("prospect_chart.html", players=players, players2=players2, plot=encoded)
+        return render_template("prospect_chart.html", players=players, players2=players2, plot=encoded, zero = zero, nonzero = nonzero)
 
 @application.route("/projections")
 def projections():
