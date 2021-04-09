@@ -15,8 +15,8 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 @application.route("/")
 def home_page():
     pitchers = pd.read_csv('all_seasons_pitchers.csv')
-    pitchers = pitchers[pitchers['Season'] == 2020]
-    pitches = 500
+    pitchers = pitchers[pitchers['Season'] == 2021]
+    pitches = 50
     values = "selected"
     percentile = ""
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
@@ -31,13 +31,15 @@ def home_page():
     inzone = ""
     outofzone = ""
     stuffera = ""
-    start20 = "selected"
+    start21 = "selected"
+    start20 = ""
     start19 = ""
     start18 = ""
     start17 = ""
     start16 = ""
     start15 = ""
-    end20 = "selected"
+    end21 = "selected"
+    end20 = ""
     end19 = ""
     end18 = ""
     end17 = ""
@@ -45,9 +47,9 @@ def home_page():
     end15 = ""
     return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
                            outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                           expected=expected,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           expected=expected,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
 
 @application.route("/", methods=['POST'])
@@ -64,7 +66,16 @@ def pitchers_table():
         end = year
         year = yearend
         yearend = end
-    if year == 2020:
+    if year == 2021:
+        start21 = "selected"
+        start20 = ""
+        start19 = ""
+        start18 = ""
+        start17 = ""
+        start16 = ""
+        start15 = ""
+    elif year == 2020:
+        start21 = ""
         start20 = "selected"
         start19 = ""
         start18 = ""
@@ -72,6 +83,7 @@ def pitchers_table():
         start16 = ""
         start15 = ""
     elif year == 2019:
+        start21 = ""
         start20 = ""
         start19 = "selected"
         start18 = ""
@@ -79,6 +91,7 @@ def pitchers_table():
         start16 = ""
         start15 = ""
     elif year == 2018:
+        start21 = ""
         start20 = ""
         start19 = ""
         start18 = "selected"
@@ -86,6 +99,7 @@ def pitchers_table():
         start16 = ""
         start15 = ""
     elif year == 2017:
+        start21 = ""
         start20 = ""
         start19 = ""
         start18 = ""
@@ -93,6 +107,7 @@ def pitchers_table():
         start16 = ""
         start15 = ""
     elif year == 2016:
+        start21 = ""
         start20 = ""
         start19 = ""
         start18 = ""
@@ -100,13 +115,23 @@ def pitchers_table():
         start16 = "selected"
         start15 = ""
     else:
+        start21 = ""
         start20 = ""
         start19 = ""
         start18 = ""
         start17 = ""
         start16 = ""
         start15 = "selected"
-    if yearend == 2020:
+    if yearend == 2021:
+        end21 = "selected"
+        end20 = ""
+        end19 = ""
+        end18 = ""
+        end17 = ""
+        end16 = ""
+        end15 = ""
+    elif yearend == 2020:
+        end21 = ""
         end20 = "selected"
         end19 = ""
         end18 = ""
@@ -114,6 +139,7 @@ def pitchers_table():
         end16 = ""
         end15 = ""
     elif yearend == 2019:
+        end21 = ""
         end20 = ""
         end19 = "selected"
         end18 = ""
@@ -121,6 +147,7 @@ def pitchers_table():
         end16 = ""
         end15 = ""
     elif yearend == 2018:
+        end21 = ""
         end20 = ""
         end19 = ""
         end18 = "selected"
@@ -128,6 +155,7 @@ def pitchers_table():
         end16 = ""
         end15 = ""
     elif yearend == 2017:
+        end21 = ""
         end20 = ""
         end19 = ""
         end18 = ""
@@ -135,6 +163,7 @@ def pitchers_table():
         end16 = ""
         end15 = ""
     elif yearend == 2016:
+        end21 = ""
         end20 = ""
         end19 = ""
         end18 = ""
@@ -142,6 +171,7 @@ def pitchers_table():
         end16 = "selected"
         end15 = ""
     else:
+        end21 = ""
         end20 = ""
         end19 = ""
         end18 = ""
@@ -175,9 +205,9 @@ def pitchers_table():
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "In-Zone":
         pitchers = pitchers[["player_name","Season", "IZ.Swing", "IZ.xSwing", "IZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -192,9 +222,9 @@ def pitchers_table():
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "Out Of Zone":
         pitchers = pitchers[["player_name", "Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         pitchers = pitchers.rename(columns={"player_name": "Name"})
@@ -209,9 +239,9 @@ def pitchers_table():
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "wOBA":
         pitchers = pitchers[["player_name","Season", "wOBA", "xwOBA", "In_wOBA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "xwOBA" : "xLwOBA"})
@@ -226,9 +256,9 @@ def pitchers_table():
         stuffera = ""
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15,values = values,percentile = percentile)
+                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15,values = values,percentile = percentile)
     else:
         pitchers = pitchers[["player_name","Season", "Command", "S_ERA"]]
         pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA", "Command" : "rfCommand"})
@@ -243,9 +273,9 @@ def pitchers_table():
         stuffera = "selected"
         return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
 
 @application.route("/hitters")
@@ -253,8 +283,8 @@ def hitters_page():
     hitters = pd.read_csv('all_seasons_hitters.csv', encoding="ISO-8859-1")
     values = "selected"
     percentile = ""
-    hitters = hitters[hitters['Season'] == 2020]
-    pitches = 500
+    hitters = hitters[hitters['Season'] == 2021]
+    pitches = 50
     hitters = hitters[hitters["Pitches"] >= pitches]
     hitters = hitters[["Name","Season", "Whiff", "xWhiff", "In_Whiff"]]
     hitters = hitters.round(3)
@@ -266,13 +296,15 @@ def hitters_page():
     inzone = ""
     outofzone = ""
     plate = ""
-    start20 = "selected"
+    start21 = "selected"
+    start20 = ""
     start19 = ""
     start18 = ""
     start17 = ""
     start16 = ""
     start15 = ""
-    end20 = "selected"
+    end21 = "selected"
+    end20 = ""
     end19 = ""
     end18 = ""
     end17 = ""
@@ -280,9 +312,9 @@ def hitters_page():
     end15 = ""
     return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
                            outofzone=outofzone, plate=plate, pitches=pitches, influence=influence, expected=expected,
-                           start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                           start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
-                           end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
 
 @application.route("/hitters", methods=['POST'])
@@ -299,7 +331,16 @@ def hitters_table():
         end = year
         year = yearend
         yearend = end
-    if year == 2020:
+    if year == 2021:
+        start21 = "selected"
+        start20 = ""
+        start19 = ""
+        start18 = ""
+        start17 = ""
+        start16 = ""
+        start15 = ""
+    elif year == 2020:
+        start21 = ""
         start20 = "selected"
         start19 = ""
         start18 = ""
@@ -307,6 +348,7 @@ def hitters_table():
         start16 = ""
         start15 = ""
     elif year == 2019:
+        start21 = ""
         start20 = ""
         start19 = "selected"
         start18 = ""
@@ -314,6 +356,7 @@ def hitters_table():
         start16 = ""
         start15 = ""
     elif year == 2018:
+        start21 = ""
         start20 = ""
         start19 = ""
         start18 = "selected"
@@ -321,6 +364,7 @@ def hitters_table():
         start16 = ""
         start15 = ""
     elif year == 2017:
+        start21 = ""
         start20 = ""
         start19 = ""
         start18 = ""
@@ -328,6 +372,7 @@ def hitters_table():
         start16 = ""
         start15 = ""
     elif year == 2016:
+        start21 = ""
         start20 = ""
         start19 = ""
         start18 = ""
@@ -335,13 +380,23 @@ def hitters_table():
         start16 = "selected"
         start15 = ""
     else:
+        start21 = ""
         start20 = ""
         start19 = ""
         start18 = ""
         start17 = ""
         start16 = ""
         start15 = "selected"
-    if yearend == 2020:
+    if yearend == 2021:
+        end21 = "selected"
+        end20 = ""
+        end19 = ""
+        end18 = ""
+        end17 = ""
+        end16 = ""
+        end15 = ""
+    elif yearend == 2020:
+        end21 = ""
         end20 = "selected"
         end19 = ""
         end18 = ""
@@ -349,6 +404,7 @@ def hitters_table():
         end16 = ""
         end15 = ""
     elif yearend == 2019:
+        end21 = ""
         end20 = ""
         end19 = "selected"
         end18 = ""
@@ -356,6 +412,7 @@ def hitters_table():
         end16 = ""
         end15 = ""
     elif yearend == 2018:
+        end21 = ""
         end20 = ""
         end19 = ""
         end18 = "selected"
@@ -363,6 +420,7 @@ def hitters_table():
         end16 = ""
         end15 = ""
     elif yearend == 2017:
+        end21 = ""
         end20 = ""
         end19 = ""
         end18 = ""
@@ -370,6 +428,7 @@ def hitters_table():
         end16 = ""
         end15 = ""
     elif yearend == 2016:
+        end21 = ""
         end20 = ""
         end19 = ""
         end18 = ""
@@ -377,6 +436,7 @@ def hitters_table():
         end16 = "selected"
         end15 = ""
     else:
+        end21 = ""
         end20 = ""
         end19 = ""
         end18 = ""
@@ -410,9 +470,9 @@ def hitters_table():
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
                                expected=expected, text = text,
-                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                               end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "In-Zone":
         hitters = hitters[["Name","Season", "IZ.Swing", "IZ.xSwing", "IZ"]]
         hitters = hitters.round(3)
@@ -427,9 +487,10 @@ def hitters_table():
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
                                expected=expected, text = text,
-                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start21=start21, start20=start20, start19=start19, start18=start18, start17=start17,
+                               start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                               end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "Out Of Zone":
         hitters = hitters[["Name","Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
         hitters = hitters.round(3)
@@ -444,9 +505,10 @@ def hitters_table():
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
                                expected=expected, text = text,
-                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start21=start21, start20=start20, start19=start19, start18=start18, start17=start17,
+                               start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                               end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     elif type == "wOBA":
         hitters = hitters[["Name","Season", "wOBA", "xwOBA", "In_wOBA"]]
         hitters = hitters.rename(columns={"xwOBA": "xLwOBA"})
@@ -462,9 +524,10 @@ def hitters_table():
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
                                expected=expected, text = text,
-                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start21=start21, start20=start20, start19=start19, start18=start18, start17=start17,
+                               start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                               end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
     else:
         hitters = hitters[["Name", "Season", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
         hitters = hitters.rename(columns={"xwOBA_Swing": "xLwOBA_Swing","xwOBA_Take": "xLwOBA_Take" })
@@ -480,9 +543,10 @@ def hitters_table():
         return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
                                outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
                                expected=expected, text = text,
-                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start21=start21, start20=start20, start19=start19, start18=start18, start17=start17,
+                               start16=start16,
                                start15=start15,
-                               end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+                               end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
 
 @application.route("/prospects")
