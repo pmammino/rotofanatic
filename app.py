@@ -14,7 +14,7 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 
 @application.route("/")
 def home_page():
-    pitchers = pd.read_csv('all_seasons_pitchers.csv')
+    pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding = 'utf_8')
     pitchers = pitchers[pitchers['Season'] == 2021]
     pitches = 50
     values = "selected"
@@ -179,11 +179,11 @@ def pitchers_table():
         end16 = ""
         end15 = "selected"
     if display == "Percentile":
-        pitchers = pd.read_csv('all_seasons_pitchers_percentile.csv')
+        pitchers = pd.read_csv('all_seasons_pitchers_percentile.csv', encoding = 'utf_8')
         percentile = "selected"
         values = ""
     else:
-        pitchers = pd.read_csv('all_seasons_pitchers.csv')
+        pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding = 'utf_8')
         percentile = ""
         values = "selected"
     pitchers = pitchers[pitchers['Season'] <= yearend]
@@ -280,7 +280,7 @@ def pitchers_table():
 
 @application.route("/hitters")
 def hitters_page():
-    hitters = pd.read_csv('all_seasons_hitters.csv', encoding="ISO-8859-1")
+    hitters = pd.read_csv('all_seasons_hitters.csv', encoding = 'utf_8')
     values = "selected"
     percentile = ""
     hitters = hitters[hitters['Season'] == 2021]
@@ -444,11 +444,11 @@ def hitters_table():
         end16 = ""
         end15 = "selected"
     if display == "Percentile":
-        hitters = pd.read_csv('all_seasons_hitters_percentile.csv', encoding="ISO-8859-1")
+        hitters = pd.read_csv('all_seasons_hitters_percentile.csv', encoding = 'utf_8')
         percentile = "selected"
         values = ""
     else:
-        hitters = pd.read_csv('all_seasons_hitters.csv', encoding="ISO-8859-1")
+        hitters = pd.read_csv('all_seasons_hitters.csv', encoding = 'utf_8')
         percentile = ""
         values = "selected"
     hitters = hitters[hitters['Season'] <= yearend]
@@ -551,7 +551,7 @@ def hitters_table():
 
 @application.route("/prospects")
 def prospects_page():
-    prospects = pd.read_csv('prospects_2019.csv', encoding="ISO-8859-1")
+    prospects = pd.read_csv('prospects_2019.csv', encoding = 'utf_8')
     prospects = prospects[prospects["PlayerID"].str.contains("sa")]
     prospects = prospects[["Name", "Value", "Adjusted Value", "Elite Rate"]]
     prospects = prospects.round(2)
@@ -567,7 +567,7 @@ def prospects_table():
     search = request.form['search']
     text = search
     search = search.strip()
-    prospects = pd.read_csv('prospects_2019.csv', encoding="ISO-8859-1")
+    prospects = pd.read_csv('prospects_2019.csv', encoding = 'utf_8')
     if search is not None:
         prospects = prospects[prospects['Name'].str.contains(search,case=False)]
     if type == "Minors":
@@ -589,9 +589,9 @@ def prospects_table():
 
 @application.route("/prospectchart")
 def prospects_chart():
-    comps = pd.read_csv('comps.csv', encoding="ISO-8859-1")
-    milb = pd.read_csv('milb.csv', encoding="ISO-8859-1")
-    colors = pd.read_csv('colors.csv', encoding="ISO-8859-1")
+    comps = pd.read_csv('comps.csv', encoding = 'utf_8')
+    milb = pd.read_csv('milb.csv', encoding = 'utf_8')
+    colors = pd.read_csv('colors.csv', encoding = 'utf_8')
     list = comps["player_list"].tolist()
     list = set(list)
     list = sorted(list)
@@ -641,15 +641,15 @@ def prospects_compare():
     p1 = request.form['player']
     p2 = request.form['player2']
     type = request.form['type']
-    comps = pd.read_csv('comps.csv', encoding="ISO-8859-1")
+    comps = pd.read_csv('comps.csv', encoding = 'utf_8')
     zero = "selected"
     nonzero = ""
     if type == "nonzero":
         comps = comps[comps['Total Val'] != 0]
         zero = ""
         nonzero = "selected"
-    milb = pd.read_csv('milb.csv', encoding="ISO-8859-1")
-    colors = pd.read_csv('colors.csv', encoding="ISO-8859-1")
+    milb = pd.read_csv('milb.csv', encoding = 'utf_8')
+    colors = pd.read_csv('colors.csv', encoding = 'utf_8')
     list = comps["player_list"].tolist()
     list = set(list)
     list = sorted(list)
@@ -721,7 +721,7 @@ def projections():
     short = ""
     outfield = ""
     all = "selected"
-    projections = pd.read_csv('projections.csv', encoding="ISO-8859-1")
+    projections = pd.read_csv('projections.csv', encoding = 'utf_8')
     list = projections["Team"].tolist()
     list = set(list)
     list = sorted(list)
@@ -750,7 +750,7 @@ def projections_filter():
     team = request.form['team']
     text = search
     search = search.strip()
-    projections = pd.read_csv('projections.csv', encoding="ISO-8859-1")
+    projections = pd.read_csv('projections.csv', encoding = 'utf_8')
     list = projections["Team"].tolist()
     list = set(list)
     list = sorted(list)
