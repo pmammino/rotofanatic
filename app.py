@@ -444,7 +444,7 @@ def hitters_table():
         end16 = ""
         end15 = "selected"
     if display == "Percentile":
-        hitters = pd.read_csv('all_seasons_hitters_percentile.csv', encoding = 'ISO-8859-1)
+        hitters = pd.read_csv('all_seasons_hitters_percentile.csv', encoding = 'ISO-8859-1')
         percentile = "selected"
         values = ""
     else:
