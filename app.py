@@ -177,9 +177,9 @@ def pitchers_table():
         end18 = ""
         end17 = ""
         end16 = ""
-        end15 = "selected"
+        end15 = "selected"ISO-8859-1
     if display == "Percentile":
-        pitchers = pd.read_csv('all_seasons_pitchers_percentile.csv', encoding = 'utf_8')
+        pitchers = pd.read_csv('all_seasons_pitchers_percentile.csv', encoding = 'ISO-8859-1')
         percentile = "selected"
         values = ""
     else:
