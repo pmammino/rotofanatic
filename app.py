@@ -16,7 +16,7 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 def home_page():
     pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding = 'utf_8')
     pitchers = pitchers[pitchers['Season'] == 2021]
-    pitches = 50
+    pitches = 250
     values = "selected"
     percentile = ""
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
@@ -284,7 +284,7 @@ def hitters_page():
     values = "selected"
     percentile = ""
     hitters = hitters[hitters['Season'] == 2021]
-    pitches = 50
+    pitches = 250
     hitters = hitters[hitters["Pitches"] >= pitches]
     hitters = hitters[["Name","Season", "Whiff", "xWhiff", "In_Whiff"]]
     hitters = hitters.round(3)
