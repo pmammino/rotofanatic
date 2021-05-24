@@ -595,7 +595,7 @@ def prospects_chart():
     list = comps["Key"].tolist()
     list = set(list)
     list = sorted(list)
-    p1 = 'Brennen Davis-Cubs-A'
+    p1 = 'Jarren Duran BOS-AAA'
     p2 = ""
     zero = "selected"
     nonzero = ""
