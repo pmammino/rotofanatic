@@ -551,7 +551,7 @@ def hitters_table():
 
 @application.route("/prospects")
 def prospects_page():
-    prospects = pd.read_csv('prospects_2019.csv', encoding = 'utf_8')
+    prospects = pd.read_csv('prospects_2021.csv', encoding = 'utf_8')
     prospects = prospects[prospects["PlayerID"].str.contains("sa")]
     prospects = prospects[["Name", "Value", "Adjusted Value", "Elite Rate"]]
     prospects = prospects.round(2)
@@ -567,7 +567,7 @@ def prospects_table():
     search = request.form['search']
     text = search
     search = search.strip()
-    prospects = pd.read_csv('prospects_2019.csv', encoding = 'utf_8')
+    prospects = pd.read_csv('prospects_2021.csv', encoding = 'utf_8')
     if search is not None:
         prospects = prospects[prospects['Name'].str.contains(search,case=False)]
     if type == "Minors":
@@ -603,7 +603,7 @@ def prospects_chart():
     x1 = comps[comps['player_list'] == p1]['Total Val'].to_list()
     w1 = comps[comps['player_list'] == p1]['W'].to_list()
     w1 = [i / sum(w1) for i in w1]
-    color = [colors[colors['mascot'] == team1]['primary'].values[0]]
+    color = [colors[colors['name'] == team1]['primary'].values[0]]
     names = [p1]
     fig = plt.figure()
     plt.hist(x1, weights=w1, bins=20,color=color, label=names,edgecolor='black', linewidth=1.2, figure = fig)
@@ -611,7 +611,7 @@ def prospects_chart():
     plt.title(p1)
     plt.xlabel("Future Fantasy Impact")
     plt.ylabel("Weighted Probability")
-    plt.axvline(x=round(np.average( x1, weights = w1),2), color = colors[colors['mascot'] == team1]['primary'].values[0], linestyle = "dotted")
+    plt.axvline(x=round(np.average( x1, weights = w1),2), color = colors[colors['name'] == team1]['primary'].values[0], linestyle = "dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
@@ -683,7 +683,7 @@ def prospects_compare():
         plt.title(p1)
         plt.xlabel("Future Fantasy Impact")
         plt.ylabel("Weighted Probability")
-        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['primary'].values[0],
+        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['name'] == team1]['primary'].values[0],
                     linestyle="dotted")
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')
@@ -694,7 +694,7 @@ def prospects_compare():
         x2 = comps[comps['player_list'] == p2]['Total Val'].to_list()
         w2 = comps[comps['player_list'] == p2]['W'].to_list()
         w2 = [i / sum(w2) for i in w2]
-        color = [colors[colors['mascot'] == team1]['primary'].values[0],colors[colors['mascot'] == team2]['secondary'].values[0]]
+        color = [colors[colors['name'] == team1]['primary'].values[0],colors[colors['name'] == team2]['secondary'].values[0]]
         names = [p1,p2]
         fig = plt.figure()
         plt.hist([x1,x2], weights=[w1,w2], bins=20, color=color, label=names, edgecolor='black', linewidth=1.2, figure=fig)
@@ -702,9 +702,9 @@ def prospects_compare():
         plt.title(p1 + " vs " + p2)
         plt.xlabel("Future Fantasy Impact")
         plt.ylabel("Weighted Probability")
-        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['mascot'] == team1]['primary'].values[0],
+        plt.axvline(x=round(np.average(x1, weights=w1), 2), color=colors[colors['name'] == team1]['primary'].values[0],
                     linestyle="dotted")
-        plt.axvline(x=round(np.average(x2, weights=w2), 2), color=colors[colors['mascot'] == team2]['secondary'].values[0],
+        plt.axvline(x=round(np.average(x2, weights=w2), 2), color=colors[colors['name'] == team2]['secondary'].values[0],
                     linestyle="dashed")
         plt.legend(loc='upper right', fontsize="small")
         tmpfile = BytesIO()
