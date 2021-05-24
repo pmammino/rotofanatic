@@ -675,7 +675,7 @@ def prospects_compare():
     w1 = comps[comps['Key'] == p1]['W'].to_list()
     w1 = [i / sum(w1) for i in w1]
     if p2 == "":
-        color = [colors[colors['mascot'] == team1]['primary'].values[0]]
+        color = [colors[colors['name'] == team1]['primary'].values[0]]
         names = [p1]
         fig = plt.figure()
         plt.hist(x1, weights=w1, bins=20,color=color, label=names,edgecolor='black', linewidth=1.2, figure = fig)
