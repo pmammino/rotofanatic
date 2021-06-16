@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+			<div id = "et-main-area">
+<nav class="nav nav-pills nav-justified justify-content-center">
+  <a class="nav-link" href="/">Pitching Leaders</a>
+      <a class="nav-link active" href="/pitchergamelog">Pitcher Game Logs</a>
+  <a class="nav-link" href="/hitters">Hitting Leaders</a>
+  <a class="nav-link" href="/prospects">Prospects</a>
+  <a class="nav-link" href="/prospectchart">Prospect Compare</a>
+</nav>
+<br>
+                <h1 class = "header">Pitcher Game Logs</h1>
+<h3 class = "sub_header">2021 Season</h3>
+
+    <div class="container page-form">
+<form class="filters" action = "/pitchergamelog" method = "post">
+            <label for="player">Select Pitcher:</label>
+
+    <select class = "form-control form-control-lg" id = "player" name="player">
+{% for name, selected in players %}
+      <option value= "{{ name }}" {{selected}}>{{ name }}</option>
+{% endfor %}
+            </select>
+    <br>
+                <label for="type">Select Stat:</label>
+
+    <select class = "form-control form-control-lg" id = "type" name="type">
+            <option value="xWhiff" {{whiff}}>xWhiff</option>
+            <option value="xLwOBA" {{woba}}>xLwOBA</option>
+            <option value="In-Zone" {{inzone}}>In-Zone</option>
+            <option value="Out-Of-Zone" {{outofzone}}>Out-Of-Zone</option>
+
+    </select>
+    <br>
+    <button type="submit" class="btn btn-orange">Update Chart</button>
+</form>
+        <br>
+    </div>
+    <div>
+<img class = "center" src="data:image/png;base64, {{ plot }}">
+        <br>
+        <br>
+        <hr>
+        <br>
+        <br>
+        {{ stats.to_html(classes ="table table-striped table-bordered table-sm sortable", index = False, table_id = "dtBasicExample") | safe}}
+
+    </div>
+				</div>
+				{% endblock %}

@@ -548,6 +548,143 @@ def hitters_table():
                                start15=start15,
                                end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
 
+@application.route("/pitchergamelog")
+def pitcher_game_log():
+    by_game = pd.read_csv('by_game.csv', encoding="ISO-8859-1")
+    list = by_game["player_name"].tolist()
+    list = set(list)
+    list = sorted(list)
+    p1 = 'Jacob deGrom'
+    stats = by_game[by_game['player_name'] == p1]
+    stats = stats[["player_name", "game_date", "offense", "Pitches", "xWhiff", "xSwing_IZ",
+                   "xSwing_OOZ",
+                   "xLwOBA"]]
+    stats = stats.rename(columns={"player_name": "Name",
+                                  "offense": "Opp",
+                                  "xSwing_IZ": "In-Zone",
+                                  "xSwing_OOZ": "Out-Of-Zone",
+                                  "game_date": "Date"})
+    x = by_game[by_game['player_name'] == p1]['game_date'].to_list()
+    y = by_game[by_game['player_name'] == p1]['xWhiff'].to_list()
+    temp = by_game[by_game['player_name'] == p1]['Pitches'].to_list()
+    names = [p1]
+    fig = plt.figure()
+    plt.scatter(x, y, c="blue", s=temp, figure=fig)
+    plt.plot(x, y, c="blue")
+    plt.suptitle('Game By Game Location Metrics')
+    plt.title(p1)
+    plt.xlabel("Game Date")
+    plt.xticks(rotation=45)
+    plt.ylabel("xWhiff")
+    plt.axhline(y=10.5, color="black", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    whiff = "selected"
+    woba = ""
+    inzone = ""
+    outofzone = ""
+    selected = []
+    for i in list:
+        if i == p1:
+            selected.append("selected")
+        else:
+            selected.append("")
+    players = zip(list, selected)
+    return render_template("game_plot.html", players=players,
+                           plot=encoded,
+                           stats=stats,
+                           whiff=whiff,
+                           woba=woba,
+                           inzone=inzone,
+                           outofzone=outofzone
+                           )
+
+
+@application.route("/pitchergamelog",methods=['POST'])
+def pitcher_game_log_chart():
+    type = request.form['type']
+    player = request.form['player']
+    by_game = pd.read_csv('by_game.csv', encoding="ISO-8859-1")
+    list = by_game["player_name"].tolist()
+    list = set(list)
+    list = sorted(list)
+    p1 = player
+    stats = by_game[by_game['player_name'] == p1]
+    stats = stats[["player_name", "game_date", "offense", "Pitches", "xWhiff", "xSwing_IZ",
+                   "xSwing_OOZ",
+                   "xLwOBA"]]
+    stats = stats.rename(columns={"player_name": "Name",
+                                  "offense": "Opp",
+                                  "xSwing_IZ": "In-Zone",
+                                  "xSwing_OOZ": "Out-Of-Zone",
+                                  "game_date": "Date"})
+    x = by_game[by_game['player_name'] == p1]['game_date'].to_list()
+    temp = by_game[by_game['player_name'] == p1]['Pitches'].to_list()
+    if type == "xWhiff":
+        whiff = "selected"
+        woba = ""
+        inzone = ""
+        outofzone = ""
+        stat_avg = 10.5
+        y = by_game[by_game['player_name'] == p1]['xWhiff'].to_list()
+    elif type == "xLwOBA":
+        whiff = ""
+        woba = "selected"
+        inzone = ""
+        outofzone = ""
+        stat_avg = 0.336
+        y = by_game[by_game['player_name'] == p1]['xLwOBA'].to_list()
+    elif type == "In-Zone":
+        whiff = ""
+        woba = ""
+        inzone = "selected"
+        outofzone = ""
+        stat_avg = 65.4
+        y = by_game[by_game['player_name'] == p1]['xSwing_IZ'].to_list()
+    elif type == "Out-Of-Zone":
+        whiff = ""
+        woba = ""
+        inzone = ""
+        outofzone = "selected"
+        stat_avg = 29.2
+        y = by_game[by_game['player_name'] == p1]['xSwing_OOZ'].to_list()
+    else:
+        whiff = "selected"
+        woba = ""
+        inzone = ""
+        outofzone = ""
+        stat_avg = 10.5
+        y = by_game[by_game['player_name'] == p1]['xWhiff'].to_list()
+    names = [p1]
+    fig = plt.figure()
+    plt.scatter(x, y, c="blue", s=temp, figure=fig)
+    plt.plot(x, y, c="blue")
+    plt.suptitle('Game By Game Location Metrics')
+    plt.title(p1)
+    plt.xlabel("Game Date")
+    plt.xticks(rotation=45)
+    plt.ylabel(type)
+    plt.axhline(y=stat_avg, color="black", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    selected = []
+    for i in list:
+        if i == p1:
+            selected.append("selected")
+        else:
+            selected.append("")
+    players = zip(list, selected)
+    return render_template("game_plot.html", players=players,
+                           plot=encoded,
+                           stats=stats,
+                           whiff=whiff,
+                           woba=woba,
+                           inzone=inzone,
+                           outofzone=outofzone
+                           )
+
 
 @application.route("/prospects")
 def prospects_page():
