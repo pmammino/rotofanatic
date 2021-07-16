@@ -729,17 +729,17 @@ def prospects_chart():
     comps = pd.read_csv('comps.csv', encoding="ISO-8859-1")
     milb = pd.read_csv('milb.csv', encoding="ISO-8859-1")
     colors = pd.read_csv('colors.csv', encoding="ISO-8859-1")
-    list = comps["player_list"].tolist()
+    list = comps["Key"].tolist()
     list = set(list)
     list = sorted(list)
-    p1 = 'Brennen Davis-Cubs-A'
+    p1 = 'Jarren Duran BOS-AAA'
     p2 = ""
     zero = "selected"
     nonzero = ""
-    team1 = milb[milb['player_list'] == p1]['Team'].values[0]
-    x1 = comps[comps['player_list'] == p1]['Total Val'].to_list()
-    w1 = comps[comps['player_list'] == p1]['W'].to_list()
-    comps1 = comps[comps['player_list'] == p1]
+    team1 = milb[milb['PlayerList'] == p1]['Team'].values[0]
+    x1 = comps[comps['Key'] == p1]['Total Val'].to_list()
+    w1 = comps[comps['Key'] == p1]['W'].to_list()
+    comps1 = comps[comps['Key'] == p1]
     comps1 = comps1[["Name", "Total Val", "Dist"]]
     w1 = [i / sum(w1) for i in w1]
     color = [colors[colors['mascot'] == team1]['primary'].values[0]]
@@ -810,11 +810,11 @@ def prospects_compare():
     list2.insert(0, "")
     selected2.insert(0, "selected")
     players2 = zip(list2, selected2)
-    team1 = milb[milb['player_list'] == p1]['Team'].values[0]
-    x1 = comps[comps['player_list'] == p1]['Total Val'].to_list()
-    w1 = comps[comps['player_list'] == p1]['W'].to_list()
+    team1 = milb[milb['PlayerList'] == p1]['Team'].values[0]
+    x1 = comps[comps['Key'] == p1]['Total Val'].to_list()
+    w1 = comps[comps['Key'] == p1]['W'].to_list()
     w1 = [i / sum(w1) for i in w1]
-    comps1 = comps[comps['player_list'] == p1]
+    comps1 = comps[comps['Key'] == p1]
     comps1 = comps1[["Name", "Total Val", "Dist"]]
     if p2 == "":
         color = [colors[colors['mascot'] == team1]['primary'].values[0]]
@@ -833,9 +833,9 @@ def prospects_compare():
         encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
         return render_template("prospect_chart.html", players=players, players2=players2, plot=encoded, comps1 = comps1)
     else:
-        team2 = milb[milb['player_list'] == p2]['Team'].values[0]
-        x2 = comps[comps['player_list'] == p2]['Total Val'].to_list()
-        w2 = comps[comps['player_list'] == p2]['W'].to_list()
+        team2 = milb[milb['PlayerList'] == p2]['Team'].values[0]
+        x2 = comps[comps['Key'] == p2]['Total Val'].to_list()
+        w2 = comps[comps['Key'] == p2]['W'].to_list()
         w2 = [i / sum(w2) for i in w2]
         color = [colors[colors['mascot'] == team1]['primary'].values[0],
                  colors[colors['mascot'] == team2]['secondary'].values[0]]
