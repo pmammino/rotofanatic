@@ -790,7 +790,7 @@ def prospects_compare():
         nonzero = "selected"
     milb = pd.read_csv('milb.csv', encoding="ISO-8859-1")
     colors = pd.read_csv('colors.csv', encoding="ISO-8859-1")
-    list = comps["player_list"].tolist()
+    list = comps["Key"].tolist()
     list = set(list)
     list = sorted(list)
     selected = [""]
