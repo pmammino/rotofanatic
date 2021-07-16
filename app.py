@@ -857,7 +857,7 @@ def prospects_compare():
         tmpfile = BytesIO()
         fig.savefig(tmpfile, format='png')
         encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-        comps2 = comps[comps['player_list'] == p2]
+        comps2 = comps[comps['Key'] == p2]
         comps2 = comps2[["Name", "Total Val", "Dist"]]
         return render_template("prospect_chart.html", players=players, players2=players2, plot=encoded, zero=zero,
                                nonzero=nonzero, comps1= comps1, comps2 = comps2)
