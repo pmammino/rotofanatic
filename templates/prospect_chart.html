@@ -4,14 +4,13 @@
 			<div id = "et-main-area">
 <nav class="nav nav-pills nav-justified justify-content-center">
   <a class="nav-link" href="/">Pitching Leaders</a>
-    <a class="nav-link" href="/pitchergamelog">Pitcher Game Logs</a>
   <a class="nav-link" href="/hitters">Hitting Leaders</a>
   <a class="nav-link" href="/prospects">Prospects</a>
   <a class="nav-link active" href="/prospectchart">Prospect Compare</a>
 </nav>
 <br>
 <h1 class = "header">Prospect Compare Charts</h1>
-<h3 class = "sub_header">Based Off 2021 Stats</h3>
+<h3 class = "sub_header">Based Off 2021 Results</h3>
 
     <div class="container page-form">
 <form class="filters" action = "/prospectchart" method = "post">
@@ -31,7 +30,7 @@
 {% endfor %}
     </select>
     <br>
-	<label for="type">Show Non-Zero Results Only:</label>
+    <label for="type">Show Non-Zero Results Only:</label>
     <select class = "form-control form-control-lg" id = "type" name="type">
             <option value="zero" {{zero}}>Include Zero Results</option>
             <option value="nonzero" {{nonzero}}>Do Not Include Zero Results</option>
@@ -44,5 +43,34 @@
     <div>
 <img class = "center" src="data:image/png;base64, {{ plot }}">
     </div>
+                  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <a data-toggle="collapse" href="#collapse1">Show Prospect 1 Comps</a>
+      </h3>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse">
+        <div>
+{{ comps1.to_html(classes ="table table-striped table-bordered table-sm sortable", index = False, table_id = "dtBasicExample") | safe}}
+    </div>
+  </div>
+</div>
+
+                <div>
+                            {% if comps2 is defined %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <a data-toggle="collapse" href="#collapse1">Show Prospect 2 Comps</a>
+      </h3>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse">
+        <div>
+{{ comps2.to_html(classes ="table table-striped table-bordered table-sm sortable", index = False, table_id = "dtBasicExample") | safe}}
+    </div>
+  </div>
+</div>   {% else %}
+{% endif %}
+ </div>
 				</div>
 				{% endblock %}
