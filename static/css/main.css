@@ -13,7 +13,7 @@ body {
 a.nav-link
 {
 	color: white;
-    background-color: black;
+    background-color: black!important;
     font-size: 2vw;
 }
 
