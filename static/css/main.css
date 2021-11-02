@@ -10,6 +10,13 @@ a, a:hover, a:focus, a:active {
 body {
 }
 
+a.nav-link
+{
+	color: white;
+    background-color: black;
+    font-size: 2vw;
+}
+
 .clickme {
     background-color: #F9812A;
     padding: 1vw 2vw;
