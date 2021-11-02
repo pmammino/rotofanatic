@@ -71,12 +71,6 @@ a.nav-link
   font-family: Arial, Helvetica, sans-serif;
 }
 
-a.nav-link {
-    color: white;
-    font-size: 2vw;
-	background-color: transparent!important;
-}
-
 
 select{
   text-align: center;
@@ -96,8 +90,6 @@ p {
 
 li {
   color: white!important;
-    background-color: #353839!important;
-
 }
 
 table {
