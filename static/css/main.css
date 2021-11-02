@@ -7,8 +7,6 @@ a, a:hover, a:focus, a:active {
   background-color: black;
 }
 
-body {
-}
 
 a.nav-link
 {
@@ -16,6 +14,7 @@ a.nav-link
     background-color: black!important;
     font-size: 2vw;
 }
+
 
 .clickme {
     background-color: #F9812A;
