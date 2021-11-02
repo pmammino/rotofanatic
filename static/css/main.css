@@ -117,7 +117,10 @@ img {
 }
 
 .panel-group{
-text-align: center;
+text-align: left;
+width: 20vw;
+background-color: black;
+color: white;
 }
 
 .projections{
