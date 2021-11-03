@@ -89,6 +89,7 @@ p {
 
 li {
   color: white!important;
+  text-align: center
 }
 
 table {
@@ -160,4 +161,9 @@ color: white;
     float: right;
     margin: 0;
     width: 100vw;
+}
+
+ul{
+	text-align: center
+	font-size 3vw;
 }
