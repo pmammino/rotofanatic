@@ -13,6 +13,7 @@ a.nav-link
 	color: white!important;
     background-color: black!important;
     font-size: 2vw;
+	padding: 2vw;
 }
 
 
@@ -176,10 +177,12 @@ ul{
 .dropdown-item {
 	color: white!important;
 	font-size: 2vw!important;
+	padding: 1vw;
 }
 
 .list-group-item{
     background: black!important;
     text-align: center!important;
+
 }
 
