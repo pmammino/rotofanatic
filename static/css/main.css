@@ -120,11 +120,40 @@ img {
 text-align: left;
 width: 20vw;
 background-color: black;
+}
+
+.panel-heading-nav{
+text-align: left;
+width: 100vw;
+background-color: black!important;
 color: white;
 }
 
 .projections{
 	width: 100%!important;
 	font-size: 1vw!important; 
+}
+
+.col-left{
+    align-items: left;
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+	width: 80vw;
+}
+
+.col-middle{
+    align-items: center;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.col-right{
+    align-items: center;
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+	width: 20vw;
 }
 
