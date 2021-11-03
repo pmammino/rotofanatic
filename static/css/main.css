@@ -119,7 +119,6 @@ img {
 
 .panel-group{
 text-align: left;
-width: 20vw;
 background-color: black;
 }
 
@@ -179,4 +178,8 @@ ul{
 	font-size: 2vw!important;
 }
 
+.list-group-item{
+    background: black!important;
+    text-align: center!important;
+}
 
