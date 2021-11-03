@@ -167,3 +167,14 @@ ul{
 	text-align: center
 	font-size 3vw;
 }
+
+.dropdown-menu{
+    text-align: center;
+    background: black;
+}
+
+.dropdown-item {
+	color: white!important;
+}
+
+
