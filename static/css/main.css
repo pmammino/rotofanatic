@@ -169,8 +169,9 @@ ul{
 }
 
 .dropdown-menu{
-    text-align: center;
-    background: black;
+    text-align: center!important;
+    background: black!important;
+	font-size: 2vw;
 }
 
 .dropdown-item {
