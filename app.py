@@ -15,7 +15,7 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 @application.route("/")
 def home_page():
     pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding = 'utf_8')
-    pitchers['player_name'] = '<a href="/pitchers/' + pitchers['pitcher'] + '">' + pitchers['player_name'] + '</a>'
+    pitchers['player_name'] = '<a href="/pitchers/' + pitchers['pitcher'].astype(str) + '">' + pitchers['player_name'] + '</a>'
     pitchers = pitchers[pitchers['Season'] == 2021]
     pitches = 1000
     values = ""
