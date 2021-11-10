@@ -15,16 +15,16 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 @application.route("/")
 def home_page():
     pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding = 'utf_8')
-    pitchers['player_name'] = '<a href="/pitchers/' + pitchers['player_name'] + '">' + pitchers['player_name'] + '</a>'
+    pitchers['player_name'] = '<a href="/pitchers/' + pitchers['pitcher'] + '">' + pitchers['player_name'] + '</a>'
     pitchers = pitchers[pitchers['Season'] == 2021]
-    pitches = 250
-    values = "selected"
-    percentile = ""
+    pitches = 1000
+    values = ""
+    percentile = "selected"
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
     expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
     influence = "In_Whiff (AVG - 0) - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
-    pitchers = pitchers[["player_name", "Season", "Whiff", "xWhiff", "In_Whiff"]]
-    pitchers = pitchers.rename(columns={"player_name": "Name"})
+    pitchers = pitchers[["player_name", "Season", "Whiff", "xWhiff", "In_Whiff","IZ.Swing", "IZ.xSwing", "IZ", "OOZ.Swing", "OOZ.xSwing", "OOZ","xwOBA", "In_wOBA","Command", "S_ERA"]]
+    pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA", "Command" : "rfCommand","xwOBA": "xLwOBA"})
     pitchers = pitchers.round(3)
     pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
     whiff = "selected"
