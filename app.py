@@ -189,7 +189,7 @@ def pitchers_table():
     pitchers = pitchers.round(3)
     pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
     if search is not None:
-        pitchers = pitchers[pitchers['player_name'].str.contains(search, case=False)]
+        pitchers = pitchers[pitchers['Name'].str.contains(search, case=False)]
         return render_template("pitchers.html", pitchers=pitchers, pitches=pitches, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
                            end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
