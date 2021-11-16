@@ -14,7 +14,7 @@ application.secret_key = ''.join(random.choices(string.ascii_uppercase + string.
 
 @application.route("/")
 def home_page():
-    pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding = 'utf_8')
+    pitchers = pd.read_csv('all_seasons_pitchers_percentile.csv', encoding = 'utf_8')
     pitchers['player_name'] = '<a href="/pitchers/' + pitchers['pitcher'].astype(str) + '">' + pitchers['player_name'] + '</a>'
     pitchers = pitchers[pitchers['Season'] == 2021]
     pitches = 1000
@@ -27,11 +27,6 @@ def home_page():
     pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA", "Command" : "rfCommand","xwOBA": "xLwOBA"})
     pitchers = pitchers.round(3)
     pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
-    whiff = "selected"
-    woba = ""
-    inzone = ""
-    outofzone = ""
-    stuffera = ""
     start21 = "selected"
     start20 = ""
     start19 = ""
@@ -46,8 +41,7 @@ def home_page():
     end17 = ""
     end16 = ""
     end15 = ""
-    return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
+    return render_template("pitchers.html", pitchers=pitchers, pitches=pitches, influence=influence,
                            expected=expected,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
                            end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
@@ -60,7 +54,6 @@ def pitchers_table():
     search = request.form['search']
     text = search
     search = search.strip()
-    type = request.form['type']
     year = int(request.form['year'])
     yearend = int(request.form['yearend'])
     if year > yearend:
@@ -187,97 +180,25 @@ def pitchers_table():
         pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding = 'utf_8')
         percentile = ""
         values = "selected"
+    pitchers['player_name'] = '<a href="/pitchers/' + pitchers['pitcher'].astype(str) + '">' + pitchers['player_name'] + '</a>'
     pitchers = pitchers[pitchers['Season'] <= yearend]
     pitchers = pitchers[pitchers['Season'] >= year]
     pitchers = pitchers[pitchers["Pitches"] >= pitches]
+    pitchers = pitchers[["player_name", "Season", "Whiff", "xWhiff", "In_Whiff","IZ.Swing", "IZ.xSwing", "IZ", "OOZ.Swing", "OOZ.xSwing", "OOZ","xwOBA", "In_wOBA","Command", "S_ERA"]]
+    pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA", "Command" : "rfCommand","xwOBA": "xLwOBA"})
+    pitchers = pitchers.round(3)
+    pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
     if search is not None:
         pitchers = pitchers[pitchers['player_name'].str.contains(search, case=False)]
-    if type == "Whiffs":
-        pitchers = pitchers[["player_name","Season", "Whiff", "xWhiff", "In_Whiff"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name"})
-        pitchers = pitchers.round(3)
-        pitchers = pitchers.sort_values(by='In_Whiff', ascending=False)
-        expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches thrown by the pitcher based on count/pitch type/location"
-        influence = "In_Whiff (AVG - 0) - How much more or less likely a pitcher is to generate a swinging strike factoring in opposing hitter"
-        whiff = "selected"
-        woba = ""
-        inzone = ""
-        outofzone = ""
-        stuffera = ""
-        return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+        return render_template("pitchers.html", pitchers=pitchers, pitches=pitches, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
                            end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
-    elif type == "In-Zone":
-        pitchers = pitchers[["player_name","Season", "IZ.Swing", "IZ.xSwing", "IZ"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name"})
-        pitchers = pitchers.round(3)
-        pitchers = pitchers.sort_values(by='IZ', ascending=True)
-        expected = "IZ.xSwing (AVG - 0.654) - Average expected swing rate of all pitches thrown In the Strike Zone by the pitcher based on count/pitch type/location"
-        influence = "IZ (AVG - 0) - How much more or less likely a pitcher is to generate a swing In the Zone factoring in opposing hitter"
-        whiff = ""
-        woba = ""
-        inzone = "selected"
-        outofzone = ""
-        stuffera = ""
-        return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
-                           start15=start15,
-                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
-    elif type == "Out Of Zone":
-        pitchers = pitchers[["player_name", "Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name"})
-        pitchers = pitchers.round(3)
-        pitchers = pitchers.sort_values(by='OOZ', ascending=False)
-        expected = "OOZ.xSwing (AVG - 0.292) - Average expected swing rate of all pitches thrown Out of the Strike Zone by the pitcher based on count/pitch type/location"
-        influence = "OOZ (AVG - 0) - How much more or less likely a pitcher is to generate a swing Out of the Zone factoring in opposing hitter"
-        whiff = ""
-        woba = ""
-        inzone = ""
-        outofzone = "selected"
-        stuffera = ""
-        return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
-                           start15=start15,
-                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
-    elif type == "wOBA":
-        pitchers = pitchers[["player_name","Season", "wOBA", "xwOBA", "In_wOBA"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name", "xwOBA" : "xLwOBA"})
-        pitchers = pitchers.round(3)
-        pitchers = pitchers.sort_values(by='In_wOBA', ascending=True)
-        expected = "XLwOBA (AVG - 0.336) - Average expected wOBACon of all pitches thrown by the pitcher based on count/pitch type/location"
-        influence = "In_wOBA (AVG - 0) - Amount above a below the expected wOBACon that we can attribute to the pitcher factoring in opposing hitter"
-        whiff = ""
-        woba = "selected"
-        inzone = ""
-        outofzone = ""
-        stuffera = ""
-        return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
-                           start15=start15,
-                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15,values = values,percentile = percentile)
     else:
-        pitchers = pitchers[["player_name","Season", "Command", "S_ERA"]]
-        pitchers = pitchers.rename(columns={"player_name": "Name", "S_ERA": "StuffERA", "Command" : "rfCommand"})
-        pitchers = pitchers.round(2)
-        pitchers = pitchers.sort_values(by='StuffERA', ascending=True)
-        expected = "Command (AVG - 0) - z-Score based metric that evaluates how much better than the average a given pitcher's location was based on expected outcomes"
-        influence = "StuffERA (AVG 4.07) - ERA Based estimator that factors in all of the influence metrics and command"
-        whiff = ""
-        woba = ""
-        inzone = ""
-        outofzone = ""
-        stuffera = "selected"
-        return render_template("pitchers.html", pitchers=pitchers, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, stuffera=stuffera, pitches=pitches, influence=influence,
-                               expected=expected, text=text,start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
-                           start15=start15,
-                           end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
-
+        return render_template("pitchers.html", pitchers=pitchers, pitches=pitches, text=text, start21=start21,
+                               start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
+                               start15=start15,
+                               end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16,
+                               end15=end15, values=values, percentile=percentile)
 
 @application.route("/hitters")
 def hitters_page():
