@@ -204,23 +204,23 @@ def pitchers_table():
 def edit_lineup(pitcher_id):
     pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding='utf_8')
     pitchers = pitchers[pitchers['pitcher'] == pitcher_id]
-    ##x = pitchers['Season'].to_list()
-    ##y = pitchers['In_Whiff'].to_list()
-    ##p = pitchers['player_name'].values[0]
-    ##fig = plt.figure()
-    ##plt.scatter(x, y, c="blue", figure=fig)
-    ##plt.plot(x, y, c="blue")
-    ##plt.suptitle('In_Whiff By Season')
-    ##plt.title(p1)
-    ##plt.xlabel("Season")
-    ##plt.xticks(rotation=45)
-    ##plt.ylabel("In_Whiff")
-    ##plt.axhline(y=0, color="black", linestyle="dotted")
-    ##tmpfile = BytesIO()
-    ##fig.savefig(tmpfile, format='png')
-    ##encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-    ##return render_template("pitcher_pages.html", encoded = encoded)
-    return render_template("pitcher_pages.html", pitchers = pitchers)
+    x = pitchers['Season'].to_list()
+    y = pitchers['In_Whiff'].to_list()
+    p = pitchers['player_name'].values[0]
+    temp = pitchers['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="blue", s = temp, figure=fig)
+    plt.plot(x, y, c="blue")
+    plt.suptitle('In_Whiff By Season')
+    plt.title(p1)
+    plt.xlabel("Season")
+    plt.xticks(rotation=45)
+    plt.ylabel("In_Whiff")
+    plt.axhline(y=0, color="black", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    return render_template("pitcher_pages.html", plot = encoded)
 
 
 
