@@ -236,8 +236,44 @@ def edit_lineup(pitcher_id):
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded2 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-    return render_template("pitcher_pages.html", plot = encoded,
-                           plot2 = encoded2)
+    x = pitchers['Season'].to_list()
+    y = pitchers['IZ.xSwing'].to_list()
+    p = pitchers['player_name'].values[0]
+    temp = pitchers['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="blue", s = temp, figure=fig)
+    plt.plot(x, y, c="blue")
+    plt.suptitle('xWhiff By Season')
+    plt.title(p)
+    plt.xlabel("Season")
+    plt.xticks(x,rotation=45)
+    plt.ylabel("In-Zone xSwing")
+    plt.axhline(y=.654, color="black", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded3 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = pitchers['Season'].to_list()
+    y = pitchers['IZ'].to_list()
+    p = pitchers['player_name'].values[0]
+    temp = pitchers['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="blue", s = temp, figure=fig)
+    plt.plot(x, y, c="blue")
+    plt.suptitle('xWhiff By Season')
+    plt.title(p)
+    plt.xlabel("Season")
+    plt.xticks(x,rotation=45)
+    plt.ylabel("IZ")
+    plt.axhline(y=0, color="black", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded4 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    return render_template("pitcher_pages.html", player = p,
+                           plot = encoded,
+                           plot2 = encoded2,
+                           plot3 =encoded3,
+                           plot4=encoded4,
+                           )
 
 
 
