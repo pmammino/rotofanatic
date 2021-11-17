@@ -212,7 +212,7 @@ def edit_lineup(pitcher_id):
     plt.scatter(x, y, c="blue", s = temp, figure=fig)
     plt.plot(x, y, c="blue")
     plt.suptitle('In_Whiff By Season')
-    plt.title(p1)
+    plt.title(p)
     plt.xlabel("Season")
     plt.xticks(rotation=45)
     plt.ylabel("In_Whiff")
