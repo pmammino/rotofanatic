@@ -232,7 +232,7 @@ def edit_lineup(pitcher_id):
     plt.xlabel("Season")
     plt.xticks(x,rotation=45)
     plt.ylabel("In_Whiff")
-    plt.axhline(y=10.5, color="black", linestyle="dotted")
+    plt.axhline(y=.105, color="black", linestyle="dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded2 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
