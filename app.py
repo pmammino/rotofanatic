@@ -219,7 +219,7 @@ def edit_lineup(pitcher_id):
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-    return render_template("pitcher_pages.html", encoded)
+    return render_template("pitcher_pages.html", encoded = encoded)
 
 
 
