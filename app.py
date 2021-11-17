@@ -220,7 +220,24 @@ def edit_lineup(pitcher_id):
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-    return render_template("pitcher_pages.html", plot = encoded)
+    x = pitchers['Season'].to_list()
+    y = pitchers['xWhiff'].to_list()
+    p = pitchers['player_name'].values[0]
+    temp = pitchers['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="blue", s = temp, figure=fig)
+    plt.plot(x, y, c="blue")
+    plt.suptitle('xWhiff By Season')
+    plt.title(p)
+    plt.xlabel("Season")
+    plt.xticks(x,rotation=45)
+    plt.ylabel("In_Whiff")
+    plt.axhline(y=10.5, color="black", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded2 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    return render_template("pitcher_pages.html", plot = encoded,
+                           plot2 = encoded2)
 
 
 
