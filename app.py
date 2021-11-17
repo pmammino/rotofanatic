@@ -206,7 +206,7 @@ def edit_lineup(pitcher_id):
     pitchers = pitchers[pitchers['pitcher'] == pitcher_id]
     x = pitchers['Season'].to_list()
     y = pitchers['In_Whiff'].to_list()
-    p = pitchers["player_name"][0]
+    p = pitchers.loc[pitchers.index[0], 'player_name']
     fig = plt.figure()
     plt.scatter(x, y, c="blue", figure=fig)
     plt.plot(x, y, c="blue")
