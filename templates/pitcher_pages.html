@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-        <div>
+	  <div class="row">
+    <div class="col-left">
 <img class = "center" src="data:image/png;base64, {{ plot }}">
-        <br>
-        <br>
-        <hr>
-        <br>
+	</div>
+    <div class="col-middle">
     </div>
+    <div class="col-right">
+<img class = "center" src="data:image/png;base64, {{ plot }}">
+    </div>
+	</div>
 	{% endblock %}
