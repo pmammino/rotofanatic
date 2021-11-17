@@ -209,8 +209,8 @@ def edit_lineup(pitcher_id):
     p = pitchers['player_name'].values[0]
     temp = pitchers['Pitches'].to_list()
     fig = plt.figure()
-    plt.scatter(x, y, c="blue", s = temp, figure=fig)
-    plt.plot(x, y, c="blue")
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
     plt.suptitle('In_Whiff By Season')
     plt.title(p)
     plt.xticks(x,rotation=45)
@@ -225,8 +225,8 @@ def edit_lineup(pitcher_id):
     p = pitchers['player_name'].values[0]
     temp = pitchers['Pitches'].to_list()
     fig = plt.figure()
-    plt.scatter(x, y, c="blue", s = temp, figure=fig)
-    plt.plot(x, y, c="blue")
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
     plt.suptitle('xWhiff By Season')
     plt.title(p)
     plt.xticks(x,rotation=45)
@@ -241,8 +241,8 @@ def edit_lineup(pitcher_id):
     p = pitchers['player_name'].values[0]
     temp = pitchers['Pitches'].to_list()
     fig = plt.figure()
-    plt.scatter(x, y, c="blue", s = temp, figure=fig)
-    plt.plot(x, y, c="blue")
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
     plt.suptitle('In Zone xSwing By Season')
     plt.title(p)
     plt.xticks(x,rotation=45)
@@ -257,8 +257,8 @@ def edit_lineup(pitcher_id):
     p = pitchers['player_name'].values[0]
     temp = pitchers['Pitches'].to_list()
     fig = plt.figure()
-    plt.scatter(x, y, c="blue", s = temp, figure=fig)
-    plt.plot(x, y, c="blue")
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
     plt.suptitle('IZ Influence By Season')
     plt.title(p)
     plt.xticks(x,rotation=45)
