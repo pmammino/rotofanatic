@@ -318,7 +318,7 @@ def edit_lineup(pitcher_id):
     fig.savefig(tmpfile, format='png')
     encoded7 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
     x = pitchers['Season'].to_list()
-    y = pitchers['xLwOBA'].to_list()
+    y = pitchers['xwOBA'].to_list()
     p = pitchers['player_name'].values[0]
     temp = pitchers['Pitches'].to_list()
     fig = plt.figure()
