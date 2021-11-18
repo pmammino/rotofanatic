@@ -333,6 +333,38 @@ def edit_lineup(pitcher_id):
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded8 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = pitchers['Season'].to_list()
+    y = pitchers['Command'].to_list()
+    p = pitchers['player_name'].values[0]
+    temp = pitchers['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('rfCommand By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 2) - 1, -1), max(round(max(y), 2) + 1, 1), 0.5))
+    plt.ylabel("rfCommand")
+    plt.axhline(y=0, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded9 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = pitchers['Season'].to_list()
+    y = pitchers['S_ERA'].to_list()
+    p = pitchers['player_name'].values[0]
+    temp = pitchers['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('Stuff ERA By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 3) - .5, 3.8), max(round(max(y), 3) + 0.5, 4.2), .1))
+    plt.ylabel("Stuf ERA")
+    plt.axhline(y=4, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded10 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
     return render_template("pitcher_pages.html", player = p,
                            plot = encoded,
                            plot2 = encoded2,
@@ -341,7 +373,9 @@ def edit_lineup(pitcher_id):
                            plot5 =encoded5,
                            plot6=encoded6,
                            plot7 =encoded7,
-                           plot8=encoded8
+                           plot8=encoded8,
+                           plot9 =encoded9,
+                           plot10=encoded10
                            )
 
 
