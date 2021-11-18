@@ -359,7 +359,7 @@ def edit_lineup(pitcher_id):
     plt.suptitle('Stuff ERA By Season')
     plt.title(p)
     plt.xticks(x, rotation=45)
-    plt.yticks(np.arange(min(round(min(y), 2) - .5, 3.8), max(round(max(y), 2) + 0.5, 4.2), .5))
+    plt.yticks(np.arange(min(round(min(y), 2) - .50, 3.80), max(round(max(y), 2) + 0.50, 4.20), .50))
     plt.ylabel("Stuff ERA")
     plt.axhline(y=4, color="red", linestyle="dotted")
     tmpfile = BytesIO()
