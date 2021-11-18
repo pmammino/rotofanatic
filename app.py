@@ -216,7 +216,7 @@ def edit_lineup(pitcher_id):
     plt.xticks(x,rotation=45)
     plt.yticks(np.arange(min(round(min(y),2) -.03,-.02), max(round(max(y),2) + 0.03,0.02), 0.02))
     plt.ylabel("In_Whiff")
-    plt.axhline(y=0, color="black", linestyle="dotted")
+    plt.axhline(y=0, color="red", linestyle="dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
@@ -232,7 +232,7 @@ def edit_lineup(pitcher_id):
     plt.xticks(x,rotation=45)
     plt.yticks(np.arange(min(round(min(y),2) -.03,0.08), max(round(max(y),2) + 0.03,0.12), 0.02))
     plt.ylabel("xWhiff")
-    plt.axhline(y=.105, color="black", linestyle="dotted")
+    plt.axhline(y=.105, color="red", linestyle="dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded2 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
@@ -248,7 +248,7 @@ def edit_lineup(pitcher_id):
     plt.xticks(x,rotation=45)
     plt.yticks(np.arange(min(round(min(y),2) -.03,-.02), max(round(max(y),2) + 0.03,0.02), 0.02))
     plt.ylabel("IZ")
-    plt.axhline(y=0, color="black", linestyle="dotted")
+    plt.axhline(y=0, color="red", linestyle="dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded3 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
@@ -265,7 +265,7 @@ def edit_lineup(pitcher_id):
     plt.yticks(np.arange(min(round(min(y),2) -.03,0.62), max(round(max(y),2) + 0.03,0.69), 0.02))
     plt.xlabel("Season")
     plt.ylabel("In-Zone xSwing")
-    plt.axhline(y=.654, color="black", linestyle="dotted")
+    plt.axhline(y=.654, color="red", linestyle="dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded4 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
@@ -281,7 +281,7 @@ def edit_lineup(pitcher_id):
     plt.xticks(x,rotation=45)
     plt.yticks(np.arange(min(round(min(y),2) -.03,-.02), max(round(max(y),2) + 0.03,0.02), 0.02))
     plt.ylabel("OOZ")
-    plt.axhline(y=0, color="black", linestyle="dotted")
+    plt.axhline(y=0, color="red", linestyle="dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded5 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
@@ -297,17 +297,51 @@ def edit_lineup(pitcher_id):
     plt.xticks(x,rotation=45)
     plt.yticks(np.arange(min(round(min(y),2) -.03,0.26), max(round(max(y),2) + 0.03,0.33), 0.02))
     plt.ylabel("Out-of-Zone xSwing")
-    plt.axhline(y=.292, color="black", linestyle="dotted")
+    plt.axhline(y=.292, color="red", linestyle="dotted")
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
     encoded6 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = pitchers['Season'].to_list()
+    y = pitchers['In_wOBA'].to_list()
+    p = pitchers['player_name'].values[0]
+    temp = pitchers['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('wOBA Influence By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 2) - .03, -.02), max(round(max(y), 2) + 0.03, 0.02), 0.02))
+    plt.ylabel("In_wOBA")
+    plt.axhline(y=0, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded7 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = pitchers['Season'].to_list()
+    y = pitchers['xLwOBA'].to_list()
+    p = pitchers['player_name'].values[0]
+    temp = pitchers['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('xLwOBA By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 3) - .003, 0.330), max(round(max(y), 3) + 0.003, 0.342), 0.002))
+    plt.ylabel("xLwOBA")
+    plt.axhline(y=.336, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded8 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
     return render_template("pitcher_pages.html", player = p,
                            plot = encoded,
                            plot2 = encoded2,
                            plot3 =encoded3,
                            plot4=encoded4,
                            plot5 =encoded5,
-                           plot6=encoded6
+                           plot6=encoded6,
+                           plot7 =encoded7,
+                           plot8=encoded8
                            )
 
 
