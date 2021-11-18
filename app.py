@@ -214,7 +214,7 @@ def edit_lineup(pitcher_id):
     plt.suptitle('In_Whiff By Season')
     plt.title(p)
     plt.xticks(x,rotation=45)
-    plt.yticks(np.arange(min(min(y -.03),-.02), max(max(x + 0.03),0.02), 0.02))
+    plt.yticks(np.arange(min(min(y) -.03,-.02), max(max(x) + 0.03,0.02), 0.02))
     plt.xlabel("Season")
     plt.ylabel("In_Whiff")
     plt.axhline(y=0, color="black", linestyle="dotted")
