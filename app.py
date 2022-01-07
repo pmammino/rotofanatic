@@ -710,7 +710,7 @@ def hitter_charts(hitter_id):
     plt.suptitle('xLwOBA_Swing By Season')
     plt.title(p)
     plt.xticks(x, rotation=45)
-    plt.yticks(np.arange(min(round(min(y), 3) - .003, 0.363), max(round(max(y), 0.003) + 1, 0.375), 0.003))
+    plt.yticks(np.arange(min(round(min(y), 3) - .003, 0.363), max(round(max(y), 3) + 0.003, 0.375), 0.003))
     plt.ylabel("xLwOBA_Swing")
     plt.axhline(y=0.369, color="red", linestyle="dotted")
     tmpfile = BytesIO()
