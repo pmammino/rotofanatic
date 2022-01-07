@@ -4,14 +4,6 @@
 <h1 class = "header">Data Monster Hitting Leaders</h1>
     <div class="container page-form">
 <form class="filters" action = "/hitters" method = "post">
-    <label for="type">Select Stats:</label>
-    <select class = "form-control form-control-lg" id = "type" name="type">
-            <option value="Whiffs" {{whiff}}>Whiffs</option>
-            <option value="In-Zone" {{inzone}}>In-Zone</option>
-            <option value="Out Of Zone" {{outofzone}}>Out Of Zone</option>
-            <option value="wOBA" {{woba}}>wOBA</option>
-            <option value="Plate" {{plate}}>Plate Discipline</option>
-    </select>
     <br>
 	        <label for="display">Select Display Type:</label>
     <select class = "form-control form-control-lg" id = "display" name="display">
@@ -67,7 +59,7 @@
     </div>
 
 <br>
-{{ hitters.to_html(classes ="table table-striped table-bordered table-sm sortable", index = False, table_id = "dtBasicExample") | safe}}
+{{ hitters.to_html(classes ="table table-striped table-bordered table-sm sortable projections", index = False,escape = False, table_id = "dtBasicExample") | safe}}
 				</div>
             </div>
 				{% endblock %}

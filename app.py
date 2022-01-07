@@ -384,21 +384,17 @@ def edit_lineup(pitcher_id):
 @application.route("/hitters")
 def hitters_page():
     hitters = pd.read_csv('all_seasons_hitters.csv', encoding = 'utf_8')
-    values = "selected"
-    percentile = ""
+    values = ""
+    percentile = "selected"
     hitters = hitters[hitters['Season'] == 2021]
     pitches = 250
     hitters = hitters[hitters["Pitches"] >= pitches]
-    hitters = hitters[["Name","Season", "Whiff", "xWhiff", "In_Whiff"]]
+    hitters = hitters[["Name","Season", "Whiff", "xWhiff", "In_Whiff","IZ.Swing", "IZ.xSwing", "IZ","OOZ.Swing", "OOZ.xSwing", "OOZ", "wOBA", "xwOBA", "In_wOBA","xwOBA_Swing", "xwOBA_Take", "SAE"]]
+    hitters = hitters.rename(columns={"xwOBA": "xLwOBA","xwOBA_Swing": "xLwOBA_Swing","xwOBA_Take": "xLwOBA_Take" })
     hitters = hitters.round(3)
     hitters = hitters.sort_values(by='In_Whiff', ascending=True)
     expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
     influence = "In_Whiff (AVG - 0) - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
-    whiff = "selected"
-    woba = ""
-    inzone = ""
-    outofzone = ""
-    plate = ""
     start21 = "selected"
     start20 = ""
     start19 = ""
@@ -413,8 +409,7 @@ def hitters_page():
     end17 = ""
     end16 = ""
     end15 = ""
-    return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                           outofzone=outofzone, plate=plate, pitches=pitches, influence=influence, expected=expected,
+    return render_template("hitters.html", hitters=hitters, pitches=pitches, influence=influence, expected=expected,
                            start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
                            start15=start15,
                            end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
@@ -423,7 +418,6 @@ def hitters_page():
 @application.route("/hitters", methods=['POST'])
 def hitters_table():
     pitches = int(request.form['pitches'])
-    type = request.form['type']
     search = request.form['search']
     display = request.form['display']
     text = search
@@ -559,92 +553,14 @@ def hitters_table():
     if search is not None:
         hitters = hitters[hitters['Name'].str.contains(search, case=False)]
     hitters = hitters[hitters["Pitches"] >= pitches]
-    if type == "Whiffs":
-        hitters = hitters[["Name","Season", "Whiff", "xWhiff", "In_Whiff"]]
-        hitters = hitters.round(3)
-        hitters = hitters.sort_values(by='In_Whiff', ascending=True)
-        expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
-        influence = "In_Whiff (AVG - 0) - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
-        whiff = "selected"
-        woba = ""
-        inzone = ""
-        outofzone = ""
-        plate = ""
-        return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
-                               expected=expected, text = text,
-                               start21=start21,start20=start20, start19=start19, start18=start18, start17=start17, start16=start16,
-                               start15=start15,
-                               end21=end21,end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
-    elif type == "In-Zone":
-        hitters = hitters[["Name","Season", "IZ.Swing", "IZ.xSwing", "IZ"]]
-        hitters = hitters.round(3)
-        hitters = hitters.sort_values(by='IZ', ascending=False)
-        expected = "IZ.xSwing (AVG - 0.654) - Average expected swing rate of all pitches seen In the Strike Zone by the hitter based on count/pitch type/location"
-        influence = "IZ (AVG - 0) - How much more or less likely a hitter is to generate a swing In the Zone factoring in opposing pitcher"
-        whiff = ""
-        woba = ""
-        inzone = "selected"
-        outofzone = ""
-        plate = ""
-        return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
-                               expected=expected, text = text,
-                               start21=start21, start20=start20, start19=start19, start18=start18, start17=start17,
-                               start16=start16,
-                               start15=start15,
-                               end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
-    elif type == "Out Of Zone":
-        hitters = hitters[["Name","Season", "OOZ.Swing", "OOZ.xSwing", "OOZ"]]
-        hitters = hitters.round(3)
-        hitters = hitters.sort_values(by='OOZ', ascending=True)
-        expected = "OOZ.xSwing (AVG - 0.292) - Average expected swing rate of all pitches seen Out of the Strike Zone by the hitter based on count/pitch type/location"
-        influence = "OOZ (AVG - 0) - How much more or less likely a hitter is to generate a swing Out of the Zone factoring in opposing pitcher"
-        whiff = ""
-        woba = ""
-        inzone = ""
-        outofzone = "selected"
-        plate = ""
-        return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
-                               expected=expected, text = text,
-                               start21=start21, start20=start20, start19=start19, start18=start18, start17=start17,
-                               start16=start16,
-                               start15=start15,
-                               end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
-    elif type == "wOBA":
-        hitters = hitters[["Name","Season", "wOBA", "xwOBA", "In_wOBA"]]
-        hitters = hitters.rename(columns={"xwOBA": "xLwOBA"})
-        hitters = hitters.round(3)
-        hitters = hitters.sort_values(by='In_wOBA', ascending=False)
-        expected = "xLwOBA (AVG - 0.336) - Average expected wOBACon of all pitches seen by the hitter based on count/pitch type/location"
-        influence = "In_wOBA (AVG - 0) - Amount above a below the expected wOBACon that we can attribute to the hitter factoring in opposing pitcher"
-        whiff = ""
-        woba = "selected"
-        inzone = ""
-        outofzone = ""
-        plate = ""
-        return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
-                               expected=expected, text = text,
-                               start21=start21, start20=start20, start19=start19, start18=start18, start17=start17,
-                               start16=start16,
-                               start15=start15,
-                               end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
-    else:
-        hitters = hitters[["Name", "Season", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
-        hitters = hitters.rename(columns={"xwOBA_Swing": "xLwOBA_Swing","xwOBA_Take": "xLwOBA_Take" })
-        hitters = hitters.round(3)
-        hitters = hitters.sort_values(by='SAE', ascending=False)
-        expected = "xLwOBA_Swing/xLwOBA_Take - Average expected wobaCon of all pitches either swung at or taken by a hitter based on location/count/pitch type"
-        influence = "SAE - Percentage increase of the expected wOBACon a hitter swung at versus all pitches saw. 110 means a hitter swung at pitches with a expected wOBACon 10% better than all pitches he saw"
-        whiff = ""
-        woba = ""
-        inzone = ""
-        outofzone = ""
-        plate = "selected"
-        return render_template("hitters.html", hitters=hitters, whiff=whiff, woba=woba, inzone=inzone,
-                               outofzone=outofzone, plate=plate, pitches=pitches, influence=influence,
+    hitters = hitters[["Name", "Season", "Whiff", "xWhiff", "In_Whiff", "IZ.Swing", "IZ.xSwing", "IZ", "OOZ.Swing", "OOZ.xSwing","OOZ", "wOBA", "xwOBA", "In_wOBA", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
+    hitters = hitters.rename(
+    columns={"xwOBA": "xLwOBA", "xwOBA_Swing": "xLwOBA_Swing", "xwOBA_Take": "xLwOBA_Take"})
+    hitters = hitters.round(3)
+    hitters = hitters.sort_values(by='In_Whiff', ascending=False)
+    expected = "xLwOBA_Swing/xLwOBA_Take - Average expected wobaCon of all pitches either swung at or taken by a hitter based on location/count/pitch type"
+    influence = "SAE - Percentage increase of the expected wOBACon a hitter swung at versus all pitches saw. 110 means a hitter swung at pitches with a expected wOBACon 10% better than all pitches he saw"
+    return render_template("hitters.html", hitters=hitters, pitches=pitches, influence=influence,
                                expected=expected, text = text,
                                start21=start21, start20=start20, start19=start19, start18=start18, start17=start17,
                                start16=start16,
