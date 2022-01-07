@@ -381,7 +381,7 @@ def pitcher_charts(pitcher_id):
 
 @application.route("/hitters")
 def hitters_page():
-    hitters = pd.read_csv('all_seasons_hitters_percentile.csv', encoding = 'utf_8')
+    hitters = pd.read_csv('all_seasons_hitters_percentile.csv', encoding = 'ISO-8859-1')
     values = ""
     percentile = "selected"
     hitters = hitters[hitters['Season'] == 2021]
