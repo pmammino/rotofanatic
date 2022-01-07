@@ -201,7 +201,7 @@ def pitchers_table():
                                end15=end15, values=values, percentile=percentile)
 
 @application.route("/pitchers/<int:pitcher_id>")
-def edit_lineup(pitcher_id):
+def pitcher_charts(pitcher_id):
     pitchers = pd.read_csv('all_seasons_pitchers.csv', encoding='utf_8')
     pitchers = pitchers[pitchers['pitcher'] == pitcher_id]
     x = pitchers['Season'].to_list()
@@ -379,20 +379,19 @@ def edit_lineup(pitcher_id):
                            )
 
 
-
-
 @application.route("/hitters")
 def hitters_page():
-    hitters = pd.read_csv('all_seasons_hitters.csv', encoding = 'utf_8')
+    hitters = pd.read_csv('all_seasons_hitters_percentile.csv', encoding = 'utf_8')
     values = ""
     percentile = "selected"
     hitters = hitters[hitters['Season'] == 2021]
     pitches = 250
     hitters = hitters[hitters["Pitches"] >= pitches]
+    hitters['Name'] = '<a href="/hitters/' + hitters['batter'].astype(str) + '">' + hitters['Name'] + '</a>'
     hitters = hitters[["Name","Season", "Whiff", "xWhiff", "In_Whiff","IZ.Swing", "IZ.xSwing", "IZ","OOZ.Swing", "OOZ.xSwing", "OOZ", "wOBA", "xwOBA", "In_wOBA","xwOBA_Swing", "xwOBA_Take", "SAE"]]
     hitters = hitters.rename(columns={"xwOBA": "xLwOBA","xwOBA_Swing": "xLwOBA_Swing","xwOBA_Take": "xLwOBA_Take" })
     hitters = hitters.round(3)
-    hitters = hitters.sort_values(by='In_Whiff', ascending=True)
+    hitters = hitters.sort_values(by='In_wOBA', ascending=False)
     expected = "xWhiff (AVG - 0.105) - Average expected swing and miss rate of all pitches seen by the hitter based on count/pitch type/location"
     influence = "In_Whiff (AVG - 0) - How much more or less likely a hitter is to generate a swinging strike factoring in opposing pitcher"
     start21 = "selected"
@@ -553,11 +552,12 @@ def hitters_table():
     if search is not None:
         hitters = hitters[hitters['Name'].str.contains(search, case=False)]
     hitters = hitters[hitters["Pitches"] >= pitches]
+    hitters['Name'] = '<a href="/hitters/' + hitters['batter'].astype(str) + '">' + hitters['Name'] + '</a>'
     hitters = hitters[["Name", "Season", "Whiff", "xWhiff", "In_Whiff", "IZ.Swing", "IZ.xSwing", "IZ", "OOZ.Swing", "OOZ.xSwing","OOZ", "wOBA", "xwOBA", "In_wOBA", "xwOBA_Swing", "xwOBA_Take", "SAE"]]
     hitters = hitters.rename(
     columns={"xwOBA": "xLwOBA", "xwOBA_Swing": "xLwOBA_Swing", "xwOBA_Take": "xLwOBA_Take"})
     hitters = hitters.round(3)
-    hitters = hitters.sort_values(by='In_Whiff', ascending=False)
+    hitters = hitters.sort_values(by='In_wOBA', ascending=False)
     expected = "xLwOBA_Swing/xLwOBA_Take - Average expected wobaCon of all pitches either swung at or taken by a hitter based on location/count/pitch type"
     influence = "SAE - Percentage increase of the expected wOBACon a hitter swung at versus all pitches saw. 110 means a hitter swung at pitches with a expected wOBACon 10% better than all pitches he saw"
     return render_template("hitters.html", hitters=hitters, pitches=pitches, influence=influence,
@@ -566,6 +566,201 @@ def hitters_table():
                                start16=start16,
                                start15=start15,
                                end21=end21, end20=end20, end19=end19, end18=end18, end17=end17, end16=end16, end15=end15, values = values,percentile = percentile)
+
+@application.route("/hitters/<int:hitter_id>")
+def hitter_charts(hitter_id):
+    hitters = pd.read_csv('all_seasons_hitters.csv', encoding='utf_8')
+    hitters = hitters[hitters['batter'] == hitter_id]
+    x = hitters['Season'].to_list()
+    y = hitters['In_Whiff'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('In_Whiff By Season')
+    plt.title(p)
+    plt.xticks(x,rotation=45)
+    plt.yticks(np.arange(min(round(min(y),2) -.03,-.02), max(round(max(y),2) + 0.03,0.02), 0.02))
+    plt.ylabel("In_Whiff")
+    plt.axhline(y=0, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['xWhiff'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('xWhiff By Season')
+    plt.title(p)
+    plt.xticks(x,rotation=45)
+    plt.yticks(np.arange(min(round(min(y),2) -.03,0.08), max(round(max(y),2) + 0.03,0.12), 0.02))
+    plt.ylabel("xWhiff")
+    plt.axhline(y=.105, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded2 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['IZ'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('IZ Influence By Season')
+    plt.title(p)
+    plt.xticks(x,rotation=45)
+    plt.yticks(np.arange(min(round(min(y),2) -.03,-.02), max(round(max(y),2) + 0.03,0.02), 0.02))
+    plt.ylabel("IZ")
+    plt.axhline(y=0, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded3 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['IZ.xSwing'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('In Zone xSwing By Season')
+    plt.title(p)
+    plt.xticks(x,rotation=45)
+    plt.yticks(np.arange(min(round(min(y),2) -.03,0.62), max(round(max(y),2) + 0.03,0.69), 0.02))
+    plt.xlabel("Season")
+    plt.ylabel("In-Zone xSwing")
+    plt.axhline(y=.654, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded4 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['OOZ'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('OOZ Influence By Season')
+    plt.title(p)
+    plt.xticks(x,rotation=45)
+    plt.yticks(np.arange(min(round(min(y),2) -.03,-.02), max(round(max(y),2) + 0.03,0.02), 0.02))
+    plt.ylabel("OOZ")
+    plt.axhline(y=0, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded5 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['OOZ.xSwing'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('Out Of Zone xSwing By Season')
+    plt.title(p)
+    plt.xticks(x,rotation=45)
+    plt.yticks(np.arange(min(round(min(y),2) -.03,0.26), max(round(max(y),2) + 0.03,0.33), 0.02))
+    plt.ylabel("Out-of-Zone xSwing")
+    plt.axhline(y=.292, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded6 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['In_wOBA'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('wOBA Influence By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 2) - .03, -.02), max(round(max(y), 2) + 0.03, 0.02), 0.02))
+    plt.ylabel("In_wOBA")
+    plt.axhline(y=0, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded7 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['xwOBA'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('xLwOBA By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 3) - .003, 0.330), max(round(max(y), 3) + 0.003, 0.342), 0.002))
+    plt.ylabel("xLwOBA")
+    plt.axhline(y=.336, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded8 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['xwOBA_Swing'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('xLwOBA_Swing By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 1) - 1, -1), max(round(max(y), 2) + 1, 1), 0.5))
+    plt.ylabel("xLwOBA_Swing")
+    plt.axhline(y=0, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded9 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['xwOBA_Take'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('xLwOBA_Take By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 2) - .50, 3.80), max(round(max(y), 2) + 0.50, 4.20), .50))
+    plt.ylabel("xLwOBA_Take")
+    plt.axhline(y=4, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded10 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    x = hitters['Season'].to_list()
+    y = hitters['SAE'].to_list()
+    p = hitters['Name'].values[0]
+    temp = hitters['Pitches'].to_list()
+    fig = plt.figure()
+    plt.scatter(x, y, c="black", figure=fig)
+    plt.plot(x, y, c="black")
+    plt.suptitle('Swings Above Expectation By Season')
+    plt.title(p)
+    plt.xticks(x, rotation=45)
+    plt.yticks(np.arange(min(round(min(y), 2) - .50, 3.80), max(round(max(y), 2) + 0.50, 4.20), .50))
+    plt.ylabel("Swings Above Expectation")
+    plt.axhline(y=4, color="red", linestyle="dotted")
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded11 = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    return render_template("hitter_pages.html", player = p,
+                           plot = encoded,
+                           plot2 = encoded2,
+                           plot3 =encoded3,
+                           plot4=encoded4,
+                           plot5 =encoded5,
+                           plot6=encoded6,
+                           plot7 =encoded7,
+                           plot8=encoded8,
+                           plot9 =encoded9,
+                           plot10=encoded10,
+                           plot11=encoded11
+                           )
 
 @application.route("/pitchergamelog")
 def pitcher_game_log():
