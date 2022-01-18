@@ -726,7 +726,7 @@ def hitter_charts(hitter_id):
     plt.suptitle('xLwOBA_Take By Season')
     plt.title(p)
     plt.xticks(x, rotation=45)
-    plt.yticks(np.arange(min(round(min(y), 3) - .003, .300), max(round(max(y), 3) + 0.003, .312), .002))
+    plt.yticks(np.arange(min(round(min(y), 3) - .003, .300), max(round(max(y), 3) + 0.003, .312), .003))
     plt.ylabel("xLwOBA_Take")
     plt.axhline(y=0.306, color="red", linestyle="dotted")
     tmpfile = BytesIO()
